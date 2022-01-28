@@ -1,5 +1,3 @@
-package src.main.java;
-
 import java.awt.geom.Point2D;
 
 
@@ -16,6 +14,7 @@ class Decide {
 	double AREA1 = 6.6;
 	int PI = 180;
 	int EPSILON = 90;
+
 
     //LIC conditions
     public boolean LIC0(double[] X, double[] Y, int numpoints, double length1) {
@@ -156,5 +155,6 @@ class Decide {
     //decide method
     public void decide(int numpoints, int[] points, int[][] LCM, int[] PUV) {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
+
 	}
 }
