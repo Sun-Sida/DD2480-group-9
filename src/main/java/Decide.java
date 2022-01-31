@@ -15,6 +15,7 @@ class Decide {
 	int PI = 180;
 	int EPSILON = 90;
 
+
     //LIC conditions
     public boolean LIC0(double[] X, double[] Y, int numpoints, double length1) {
 		double x1, y1, x2, y2, dist;
@@ -154,5 +155,6 @@ class Decide {
     //decide method
     public void decide(int numpoints, int[] points, int[][] LCM, int[] PUV) {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
+
 	}
 }
