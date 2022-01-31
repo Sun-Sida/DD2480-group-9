@@ -14,6 +14,8 @@ class Decide {
 	double AREA1 = 6.6;
 	int PI = 180;
 	int EPSILON = 90;
+	int K_PTS = 2;
+	double LENGTH2 = 2.0;
 
 
     //LIC conditions
@@ -118,9 +120,28 @@ class Decide {
 	}
 
 	public boolean LIC12() {
-		double x1, x2, y1, y2, length1, length2;
-		for(int i = K_PTS; i < NUMPOINTS; i++){
-			x1 = X[]
+		double x1, x2, y1, y2, dist;
+		boolean cond1 = false;
+		boolean cond2 = false;
+		if(NUMPOINTS < 3){
+			return false;
+		}
+		for(int i = 0; i < NUMPOINTS-K_PTS; i++){
+			x1 = X[i];
+			x2 = X[i+K_PTS+1];
+			y1 = Y[i];
+			y2 = Y[i+K_PTS+1];
+			dist = Point2D.distance(x1,y1,x2,y2);
+			if(dist > LENGTH1){
+				cond1 = true;
+			}
+			if(dist < LENGTH2){
+				cond2 = true;
+			}
+		if((cond1) & (cond2)){
+			return true;
+		}
+
 		}
 		return false;
 	}
