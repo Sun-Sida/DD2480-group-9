@@ -118,6 +118,10 @@ class Decide {
 	}
 
 	public boolean LIC12() {
+		double x1, x2, y1, y2, length1, length2;
+		for(int i = K_PTS; i < NUMPOINTS; i++){
+			x1 = X[]
+		}
 		return false;
 	}
 
