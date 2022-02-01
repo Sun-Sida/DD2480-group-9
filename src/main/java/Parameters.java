@@ -44,6 +44,7 @@ public class Parameters {
         this.AREA2 = AREA2;           
     }
 
+
     public double getLENGTH1(){
         return LENGTH1;
     }
