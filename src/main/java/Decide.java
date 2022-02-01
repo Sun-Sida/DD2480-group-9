@@ -1,4 +1,5 @@
 import java.awt.geom.Point2D;
+import java.util.Arrays;
 
 
 class Decide {
@@ -14,6 +15,15 @@ class Decide {
 	double AREA1 = 6.6;
 	int PI = 180;
 	int EPSILON = 90;
+	Parameters parameters;
+	int[][] points;
+
+	public Decide(Parameters parameters, int NUMPOINTS, int[][] points){
+		this.parameters = parameters;
+		this.NUMPOINTS = NUMPOINTS;
+		this.points = points;
+	}
+	public Decide() {}
 
 
     //LIC conditions
