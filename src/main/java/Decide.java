@@ -119,23 +119,23 @@ class Decide {
 		return false;
 	}
 
-	public boolean LIC12() {
+	public boolean LIC12(double[] X, double[] Y, int numpoints, double length1, double length2, int k_pts) {
 		double x1, x2, y1, y2, dist;
 		boolean cond1 = false;
 		boolean cond2 = false;
-		if(NUMPOINTS < 3){
+		if(numpoints < 3){
 			return false;
 		}
-		for(int i = 0; i < NUMPOINTS-K_PTS; i++){
+		for(int i = 0; i < numpoints-k_pts; i++){
 			x1 = X[i];
-			x2 = X[i+K_PTS+1];
+			x2 = X[i+k_pts+1];
 			y1 = Y[i];
-			y2 = Y[i+K_PTS+1];
+			y2 = Y[i+k_pts+1];
 			dist = Point2D.distance(x1,y1,x2,y2);
-			if(dist > LENGTH1){
+			if(dist > length1){
 				cond1 = true;
 			}
-			if(dist < LENGTH2){
+			if(dist < length2){
 				cond2 = true;
 			}
 		if((cond1) & (cond2)){
