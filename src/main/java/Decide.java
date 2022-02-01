@@ -14,8 +14,6 @@ class Decide {
 	double AREA1 = 6.6;
 	int PI = 180;
 	int EPSILON = 90;
-	int K_PTS = 2;
-	double LENGTH2 = 2.0;
 
 
     //LIC conditions
@@ -126,7 +124,7 @@ class Decide {
 		if(numpoints < 3){
 			return false;
 		}
-		for(int i = 0; i < numpoints-k_pts; i++){
+		for(int i = 0; i < numpoints-k_pts-1; i++){
 			x1 = X[i];
 			x2 = X[i+k_pts+1];
 			y1 = Y[i];
