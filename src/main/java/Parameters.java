@@ -1,4 +1,3 @@
-
 public class Parameters {
     public double LENGTH1 ; // Length in LICs 0 , 7 , 12
     public double RADIUS1 ; // Radius in LICs 1 , 8 , 13
