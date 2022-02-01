@@ -14,25 +14,20 @@ class DecideTest {
     }
     @Test
     void LIC12TrueTest(){
-        var dec = new Decide();
-        double[] LIC12X = {2.0, 2.0, 5.0, 7.0, 8.0, 11.0};
-        double[] LIC12Y = {2.0, 5.0, 6.0, 4.0, 8.0, 4.0};
-        double LIC12Length1 = 4.0;
-        double LIC12Length2 = 7.0;
-        int LIC12K_pts = 2;
-        int LIC12Numpoints = 6;
-        assertTrue(dec.LIC12(LIC12X, LIC12Y,LIC12Numpoints,  LIC12Length1, LIC12Length2, LIC12K_pts));
+        Parameters parameters = new Parameters(4.0, 0, 0, 0, 0, 0,
+                0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 7,0, 0);
+        int[][] points = {{2, 2, 5, 7, 8, 11}, {2, 5, 6, 4, 8, 4}};
+        var dec = new Decide(parameters, 6, points);
+        assertTrue(dec.LIC12());
     }
     @Test
     void LIC12FalseTest(){
-        var dec = new Decide();
-        double[] LIC12X = {2.0, 2.0, 5.0, 7.0, 8.0, 11.0};
-        double[] LIC12Y = {2.0, 5.0, 6.0, 4.0, 8.0, 4.0};
-        double LIC12Length1 = 40.0;
-        double LIC12Length2 = 7.0;
-        int LIC12K_pts = 0;
-        int LIC12Numpoints = 6;
-        assertFalse(dec.LIC12(LIC12X, LIC12Y,LIC12Numpoints,  LIC12Length1, LIC12Length2, LIC12K_pts));
+        Parameters parameters = new Parameters(40.0, 0, 0, 0, 0, 0,
+                0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 7,0, 0);
+        int[][] points = {{2, 2, 5, 7, 8, 11}, {2, 5, 6, 4, 8, 4}};
+
+        var dec = new Decide(parameters, 6, points);
+        assertFalse(dec.LIC12());
     }
 
 
