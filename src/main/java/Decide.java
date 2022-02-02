@@ -13,7 +13,7 @@ class Decide {
 	double[] Y = {1.31, 2.20, 1.3};
 	double LENGTH1 = 2.0;
 	double AREA1 = 6.6;
-	int PI = 180;
+	double PI = 3.1415926535;
 	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
@@ -47,23 +47,25 @@ class Decide {
 	}
 
 	public boolean LIC2() {
-		double x1, y1, x2, y2, x3, y3, angle;
-		for(int i = 2; i < NUMPOINTS; i++){
-			x1 = X[i-2];
-			y1 = Y[i-2];
-			x2 = X[i-1];
-			y2 = Y[i-1];
-			x3 = X[i];
-			y3 = Y[i];
+		double x1, y1, x2, y2, x3, y3, angle, EPSILON;
+		EPSILON=parameters.getEPSILON();
+		if(EPSILON<0 || EPSILON>PI) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
 			
-			angle = Math.toDegrees((Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2)));
-			
+			angle = (Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2));
 			if (angle < 0) {
-				angle += 360;
+				angle = angle + (2*PI);
 			}
-			if (angle > 180) {
-				angle = 360-angle;
+			else if (angle > PI) {
+				angle = (2*PI)-angle;
 			}
+		
 			
 			//System.out.println(angle);
 			
