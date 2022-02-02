@@ -139,6 +139,42 @@ class Decide {
 	}
 
 	public boolean LIC8() {
+		/*
+		There exists at least one set of three data points separated by 
+		exactly A PTS and B PTS consecutive intervening points, respectively, 
+		that cannot be contained within or on a circle of radius RADIUS1. 
+		The condition is not met when NUMPOINTS < 5.
+		1 ≤ A PTS, 1 ≤ B PTS
+		A PTS + B PTS ≤ (NUMPOINTS − 3)
+		*/
+
+		int aPts = parameters.getA_PTS();
+		int bPts = parameters.getB_PTS();
+
+		// Pre-existing conditions on success
+		if ((NUMPOINTS < 5) || (aPts < 1 || bPts < 1) || (aPts + bPts > (NUMPOINTS - 3))) 
+			return false;
+
+		double rad = parameters.RADIUS1;
+
+		for (int i = 0; i < (NUMPOINTS - (aPts + bPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + aPts]; int x3 = points[0][i + aPts + 2 + bPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + aPts]; int y3 = points[1][i + aPts + 2 + bPts];
+
+			// points create a triangle in 2D space
+			double dist12 = Point2D.distance(x1, y1, x2, y2);
+			double dist13 = Point2D.distance(x1, y1, x3, y3);
+			double dist23 = Point2D.distance(x2, y2, x3, y3);
+
+			/*
+			If the longest side of the triangle is larger than the diameter of the circle, 
+			then no circle that spanns the three points is possible. In all other cases there 
+			will be a circle that can contain all points.
+			*/
+			double maxDist = Math.max(dist12, Math.max(dist13, dist23));
+			if (maxDist > 2 * rad) return true;
+		}
+
 		return false;
 	}
 
