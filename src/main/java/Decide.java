@@ -127,6 +127,13 @@ class Decide {
 	}
 
 	public boolean LIC5() {
+		//System.out.println(points[3][0]);
+
+		for(int i = 0; i < (points.length - 1); i++){
+			if ((points[i][0] > points[i+1][0])) {
+				return true;
+			}
+		}
 		return false;
 	}
 
