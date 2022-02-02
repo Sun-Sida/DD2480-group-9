@@ -94,6 +94,42 @@ class DecideTest {
             assertFalse(dec.LIC2());
     }
 
+	@Test
+	void LIC3TrueTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 1.9;
+		Parameters parameters = new Parameters(0, 0, 0, AREA1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+		assertTrue(dec.LIC3());
+	}
+
+	@Test
+	void LIC3FalseTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 2.1;
+		Parameters parameters = new Parameters(0, 0, 0, AREA1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+		assertFalse(dec.LIC3());
+	}
+
     @Test
 		void LIC4FalseTest(){
 			int[][] points = new int[2][2];
