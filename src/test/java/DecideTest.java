@@ -801,8 +801,7 @@ class DecideTest {
 		var dec = new Decide(parameters, 0, points, lcm, puv);
         dec.LAUNCH();
         String expectedLaunch = "YES";
-        Assertions.assertSame(expectedLaunch, outContent.toString());
-
+		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
         
     }
 
@@ -870,7 +869,8 @@ class DecideTest {
         
 		dec.LAUNCH();
         String expectedLaunch = "NO";
-        Assertions.assertEquals(expectedLaunch, outContent.toString());
+
+		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
 
 	}
 }
