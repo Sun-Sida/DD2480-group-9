@@ -13,7 +13,7 @@ class Decide {
 	double[] Y = {1.31, 2.20, 1.3};
 	double LENGTH1 = 2.0;
 	double AREA1 = 6.6;
-	int PI = 180;
+	double PI = 3.1415926535;
 	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
@@ -23,45 +23,64 @@ class Decide {
 		this.NUMPOINTS = NUMPOINTS;
 		this.points = points;
 	}
-	public Decide() {}
 
 
     //LIC conditions
-    public boolean LIC0(double[] X, double[] Y, int numpoints, double length1) {
+    public boolean LIC0() {
+		if (parameters.LENGTH1< 0) return false;
 		double x1, y1, x2, y2, dist;
-		for(int i = 1; i < numpoints; i++){
-			x1 = X[i-1];
-			y1 = Y[i-1];
-			x2 = X[i];
-			y2 = Y[i];
+		for(int i = 0; i < NUMPOINTS-1; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			//System.out.println(x1);
 			dist = Point2D.distance(x1,y1,x2,y2);
-			if(dist > length1){return true;}
+			System.out.println(dist);
+			if(dist > parameters.LENGTH1) return true;
 		}
 		return false;
 	}
 
 	public boolean LIC1() {
+		double x1, y1, x2, y2, x3, y3, radius;
+		radius = parameters.RADIUS1;
+		if (radius<0) return false;
+		if (NUMPOINTS<3) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
+			if((Point2D.distance(x1,y1,x2,y2)<radius) && (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x1,y1,x2,y2)<radius)&& (Point2D.distance(x2,y2,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x2,y2,x3,y3)<radius)&& (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+		}
 		return false;
 	}
 
 	public boolean LIC2() {
-		double x1, y1, x2, y2, x3, y3, angle;
-		for(int i = 2; i < NUMPOINTS; i++){
-			x1 = X[i-2];
-			y1 = Y[i-2];
-			x2 = X[i-1];
-			y2 = Y[i-1];
-			x3 = X[i];
-			y3 = Y[i];
+		double x1, y1, x2, y2, x3, y3, angle, EPSILON;
+		EPSILON=parameters.getEPSILON();
+		if(EPSILON<0 || EPSILON>PI) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
 			
-			angle = Math.toDegrees((Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2)));
-			
+			angle = (Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2));
 			if (angle < 0) {
-				angle += 360;
+				angle = angle + (2*PI);
 			}
-			if (angle > 180) {
-				angle = 360-angle;
+			else if (angle > PI) {
+				angle = (2*PI)-angle;
 			}
+		
 			
 			//System.out.println(angle);
 			
@@ -127,10 +146,10 @@ class Decide {
 	}
 
 	public boolean LIC5() {
-		//System.out.println(points[3][0]);
+		//System.out.println(points[0][1]);
 
 		for(int i = 0; i < (points.length - 1); i++){
-			if ((points[i][0] > points[i+1][0])) {
+			if ((points[0][i] > points[0][i+1])) {
 				return true;
 			}
 		}
@@ -138,10 +157,53 @@ class Decide {
 	}
 
 	public boolean LIC6() {
+		//if (NUMPOINTS < 3) return false;
+		if (3 >= parameters.getN_PTS() && parameters.getN_PTS() >= NUMPOINTS || parameters.getDIST() < 0 || NUMPOINTS < 3) return false;
+
+		for(int i = 0; i < NUMPOINTS - parameters.getN_PTS() +1; i++){
+			int end = i + parameters.getN_PTS() - 1;
+			if (points[0][i] == points[0][end] && points[1][i] == points[1][end]){
+				//When there is no line: Euclidean distance is enough.
+				for (int j = i+1; j<end; j++){
+					//Calculate the distance to a point (using Euclidean distance)
+					if (distance(points[0][i],points[0][j], points[1][i], points[1][j]) > parameters.getDIST()) {
+						return true;
+					}
+				}
+			} else {
+				//Line equation: ax+by+c = 0
+				int a,b,c;
+				int diffX = difference(points[0][i],points[0][end]);
+				int diffY = difference(points[1][i], points[1][end]);
+				int k = diffY/diffX;
+				int m = points[1][i] - k * points[0][i];
+				a = -k;
+				b = 1;
+				c = -m;
+				for (int j = i+1; j<end; j++){
+					//Distance between point and line from wiki: abs(line equation) / sqrt(a² + b²)
+					int distance_point_and_line = (int) (Math.abs(a*points[0][j] + b*points[1][j] + c) / Math.sqrt(a*a + b*b));
+					if (distance_point_and_line > parameters.getDIST()) {
+						return true;
+					}
+				}
+			}
+
+		}
+
 		return false;
 	}
 
 	public boolean LIC7() {
+		if (NUMPOINTS<3) {
+			return false;
+		}
+		int k_pts = parameters.getK_PTS();
+		for (int i = 0; i < NUMPOINTS-1-k_pts; i++){
+			if (distance(points[0][i],points[0][i+k_pts],points[1][i], points[1][i+k_pts]) > parameters.getLENGTH1()) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -186,10 +248,77 @@ class Decide {
 	}
 
 	public boolean LIC9() {
+		/*
+		There exists at least one set of three data points separated by exactly C PTS and D PTS
+		consecutive intervening points, respectively, that form an angle such that:
+		angle < (PI − EPSILON) or angle > (PI + EPSILON).
+		The second point of the set of three points is always the vertex of the angle. If either the first
+		point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+		is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+		1 ≤ C PTS, 1 ≤ D PTS
+		C PTS + D PTS ≤ NUMPOINTS − 3
+		*/
+
+		int cPts = parameters.getC_PTS(); int dPts = parameters.getD_PTS();
+		double eps = parameters.getEPSILON();
+
+		if ((NUMPOINTS < 5) || (cPts < 1 || dPts < 1) || (cPts + dPts > (NUMPOINTS - 3))) 
+			return false;
+
+		for (int i = 0; i < (NUMPOINTS - (cPts + dPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + cPts]; int x3 = points[0][i + cPts + 2 + dPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + cPts]; int y3 = points[1][i + cPts + 2 + dPts];
+
+			if (!(x1 == x2 && y1 == y2) && !(x3 == x2 && y3 == y2)) {
+				// vectors a and b that originate from point 2
+				int ax = x1-x2; int ay = y1-y2; int bx = x3-x2; int by = y3-y2;
+
+				// angle between vector a and b
+				double angle = Math.toDegrees(Math.acos(
+					(ax * bx + ay * by) / 
+						(
+							Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2)) * 
+							Math.sqrt(Math.pow(bx, 2) + Math.pow(by, 2))
+						)
+				));
+
+				if (angle < (PI - eps) || angle > (PI + eps)) return true;
+			}
+		}
 		return false;
 	}
 
 	public boolean LIC10() {
+	/*
+	There exists at least one set of three data points separated by exactly E PTS and F PTS con-
+	secutive intervening points, respectively, that are the vertices of a triangle with area greater
+	than AREA1. The condition is not met when NUMPOINTS < 5.
+	1 ≤ E PTS, 1 ≤ F PTS
+	E PTS + F PTS ≤ NUMPOINTS − 3
+	*/
+
+		int ePts = parameters.getE_PTS(); int fPts = parameters.getF_PTS();
+		
+		if ((NUMPOINTS < 5) || (ePts < 1 || fPts < 1) || (ePts + fPts > (NUMPOINTS - 3))) 
+			return false;
+
+		double area = parameters.getAREA1();
+
+		for (int i = 0; i < (NUMPOINTS - (ePts + fPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + ePts]; int x3 = points[0][i + ePts + 2 + fPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + ePts]; int y3 = points[1][i + ePts + 2 + fPts];
+
+			double sideA = Point2D.distance(x1, y1, x2, y2);
+			double sideB = Point2D.distance(x1, y1, x3, y3);
+			double sideC = Point2D.distance(x2, y2, x3, y3);
+
+			// Heron's formula
+			double s = (sideA + sideB + sideC) / 2;
+			double triArea = Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
+
+			if (triArea > area) return true;
+		}
+
 		return false;
 	}
 
@@ -296,5 +425,14 @@ class Decide {
     public void decide(int numpoints, int[] points, int[][] LCM, int[] PUV) {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
 
+	}
+	public static int distance(int x1, int x2, int y1, int y2){
+		int diffX = difference(x2,x1);
+		int diffY = difference(y2,y1);
+		return (int) Math.sqrt(diffX*diffX + diffY*diffY);
+	}
+
+	public static int difference(int x1, int x2) {
+		return x2-x1;
 	}
 }
