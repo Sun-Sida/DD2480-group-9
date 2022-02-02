@@ -138,6 +138,39 @@ class Decide {
 	}
 
 	public boolean LIC6() {
+		//if (NUMPOINTS < 3) return false;
+		if (3 >= parameters.getN_PTS() && parameters.getN_PTS() >= NUMPOINTS || parameters.getDIST() < 0 || NUMPOINTS < 3) return false;
+
+		for(int i = 0; i < NUMPOINTS - parameters.getN_PTS() +1; i++){
+			int end = i + parameters.getN_PTS() -1;
+			if (points[i][0] == points[end][0] && points[0][i] == points[0][end]){
+				//When there is no line: Euclidean distance is enough.
+				for (int j = i+1; j<end; j++){
+					//Calculate the distance to a point (using Euclidean distance)
+					if (distance(points[i][0],points[end][0], points[0][i], points[0][end]) > parameters.getDIST()) {
+						return true;
+					}
+				}
+			} else {
+				//Line equation: ax+by+c = 0
+				int a,b,c;
+				int diffX = difference(points[i][0],points[end][0]);
+				int diffY = difference(points[0][i], points[0][end]);
+				int k = diffY/diffX;
+				int m = points[0][i] - k * points[i][0];
+				a = -k;
+				b = 1;
+				c = -m;
+				for (int j = i+1; j<end; j++){
+					//Distance between point and line from wiki: abs(line equation) / sqrt(a² + b²)
+					int distance_point_and_line = (int) (Math.abs(a*points[i][0] + b*points[0][i]+ c) / Math.sqrt(Math.pow(2, a) + Math.pow(2,b)));
+					if (distance_point_and_line > parameters.getDIST()) return true;
+				}
+			}
+
+		}
+
+
 		return false;
 	}
 
@@ -200,5 +233,14 @@ class Decide {
     public void decide(int numpoints, int[] points, int[][] LCM, int[] PUV) {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
 
+	}
+	public static int distance(int x1, int x2, int y1, int y2){
+		int diffX = difference(x2,x1);
+		int diffY = difference(y2,y1);
+		return (int) Math.sqrt(Math.pow(2,diffX) + Math.pow(2, diffY));
+	}
+
+	public static int difference(int x1, int x2) {
+		return x2-x1;
 	}
 }

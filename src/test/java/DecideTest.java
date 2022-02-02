@@ -67,7 +67,7 @@ class DecideTest {
             points[2][0] = 4;
             points[3][0] = 5;
             Parameters parameters = new Parameters(0.0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-            var dec = new Decide(parameters, 2, points);
+            var dec = new Decide(parameters, 4, points);
             assertTrue(dec.LIC5());
         }
         @Test
@@ -78,7 +78,7 @@ class DecideTest {
             points[2][0] = 4;
             points[3][0] = 5;
             Parameters parameters = new Parameters(0.0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-            var dec = new Decide(parameters, 2, points);
+            var dec = new Decide(parameters, 4, points);
             assertFalse(dec.LIC5());
         }
 
