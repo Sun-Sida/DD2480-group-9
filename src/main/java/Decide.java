@@ -193,7 +193,14 @@ class Decide {
 		return false;
 	}
 
-	public boolean LIC11() {
+	public boolean LIC11() {	
+		//1 ≤G PTS ≤NUMPOINTS−2
+		if (parameters.getG_PTS() < 1 || parameters.getG_PTS() > NUMPOINTS -2) return false;
+		if (NUMPOINTS<3) return false;
+		for(int i=0; i<NUMPOINTS-parameters.getG_PTS()-1; i++){
+			int j = i + parameters.G_PTS +1;
+			if((points[0][j]- points[0][i])<0) return true;
+		}
 		return false;
 	}
 
