@@ -272,6 +272,30 @@ class Decide {
 	}
 
 	public boolean LIC14() {
+		boolean cond1 = false;
+		boolean cond2 = false;
+		int E_PTS = parameters.getE_PTS();
+		int F_PTS = parameters.getF_PTS();
+		double area_1 = parameters.AREA1();
+		double area_2 = parameters.getAREA2();
+		for (int i = 0; i < (NUMPOINTS - (E_PTS + F_PTS + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + E_PTS]; int x3 = points[0][i + E_PTS + 2 + F_PTS];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + E_PTS]; int y3 = points[1][i + E_PTS + 2 + F_PTS];
+
+			//Find area
+			//
+			double area = Math.abs(0.5*(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)));
+			if(area < area_1){
+				cond1 = true;
+			}
+			if(area > area_2){
+				cond2 = true;
+			}
+			if((cond1) && (cond2)){
+				return true;
+			}
+
+		}
 		return false;
 	}
 	
