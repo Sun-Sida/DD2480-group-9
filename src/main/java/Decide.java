@@ -494,10 +494,25 @@ class Decide {
 	}
 	
 	//Final unlock vector
-	public int[] FUV() {
+	public Boolean[] FUV(Boolean[][]pum, Boolean[]puv) {
 		//computes the FUV vector from the PMV and the PUV
-		int[] vector = {0};
-        return vector;
+		Boolean[] fuv = new Boolean[15];
+		for (int i = 0; i < 15; i++) {			
+				if (puv[i] == true){
+					for (int j = 0; j < 15; j++){
+						if(i == j) continue;
+						if(pum[i][j] == false){
+							fuv[i] = false;
+							break;
+						}
+						fuv[i] = true;
+					}					
+				}
+				if (puv[i] == false){
+					fuv[i] = true;
+				}
+		}
+        return fuv;
 	}
 	
     
