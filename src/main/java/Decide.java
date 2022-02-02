@@ -142,13 +142,12 @@ class Decide {
 		if (3 >= parameters.getN_PTS() && parameters.getN_PTS() >= NUMPOINTS || parameters.getDIST() < 0 || NUMPOINTS < 3) return false;
 
 		for(int i = 0; i < NUMPOINTS - parameters.getN_PTS() +1; i++){
-			int end = i + parameters.getN_PTS() -1;
+			int end = i + parameters.getN_PTS() - 1;
 			if (points[0][i] == points[0][end] && points[1][i] == points[1][end]){
 				//When there is no line: Euclidean distance is enough.
 				for (int j = i+1; j<end; j++){
 					//Calculate the distance to a point (using Euclidean distance)
 					if (distance(points[0][i],points[0][j], points[1][i], points[1][j]) > parameters.getDIST()) {
-						System.out.println("Kom till punkt o punkt");
 						return true;
 					}
 				}
@@ -164,16 +163,14 @@ class Decide {
 				c = -m;
 				for (int j = i+1; j<end; j++){
 					//Distance between point and line from wiki: abs(line equation) / sqrt(a² + b²)
-					int distance_point_and_line = (int) (Math.abs(a*points[0][i] + b*points[1][i]+ c) / Math.sqrt(Math.pow(2, a) + Math.pow(2,b)));
+					int distance_point_and_line = (int) (Math.abs(a*points[0][j] + b*points[1][j] + c) / Math.sqrt(a*a + b*b));
 					if (distance_point_and_line > parameters.getDIST()) {
-						System.out.println("Kom till linje o punkt");
 						return true;
 					}
 				}
 			}
 
 		}
-
 
 		return false;
 	}
@@ -241,7 +238,7 @@ class Decide {
 	public static int distance(int x1, int x2, int y1, int y2){
 		int diffX = difference(x2,x1);
 		int diffY = difference(y2,y1);
-		return (int) Math.sqrt(Math.pow(2,diffX) + Math.pow(2, diffY));
+		return (int) Math.sqrt(diffX*diffX + diffY*diffY);
 	}
 
 	public static int difference(int x1, int x2) {
