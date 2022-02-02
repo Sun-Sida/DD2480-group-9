@@ -263,7 +263,7 @@ class DecideTest {
 		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
 
 		var dec = new Decide(parameters, 7, points);
-		assertTrue(dec.LIC12());
+		assertTrue(dec.LIC13());
 	}
 	@Test
 	void LIC13FalseTest(){
@@ -272,7 +272,7 @@ class DecideTest {
 		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
 
 		var dec = new Decide(parameters, 7, points);
-		assertFalse(dec.LIC12());
+		assertFalse(dec.LIC13());
 	}
 
 	
