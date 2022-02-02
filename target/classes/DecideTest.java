@@ -801,9 +801,77 @@ class DecideTest {
 		var dec = new Decide(parameters, 0, points, lcm, puv);
         dec.LAUNCH();
         String expectedLaunch = "YES";
-        Assertions.assertSame(expectedLaunch, outContent.toString());
-
+		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
         
     }
+
+	@Test
+	void FalseLaunchTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 1;
+		double RADIUS1 = 1;
+		double EPSILON = 0.1;
+
+		Parameters parameters = new Parameters(0, RADIUS1, EPSILON, AREA1, 4, 4, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 100);
+		
+		Connectors[][] lcm = new Connectors[15][15];
+        lcm[0][0] = Connectors.ANDD;
+        lcm[0][1] = Connectors.ANDD;
+        lcm[0][2] = Connectors.ORR;
+        lcm[0][3] = Connectors.ANDD;
+
+        lcm[1][0] = Connectors.ANDD;
+        lcm[1][1] = Connectors.ANDD;
+        lcm[1][2] = Connectors.ORR;
+        lcm[1][3] = Connectors.ORR;
+
+        lcm[2][0] = Connectors.ORR;
+        lcm[2][1] = Connectors.ORR;
+        lcm[2][2] = Connectors.ANDD;
+        lcm[2][3] = Connectors.ANDD;
+
+        lcm[3][0] = Connectors.ANDD;
+        lcm[3][1] = Connectors.ORR;
+        lcm[3][2] = Connectors.ANDD;
+        lcm[3][3] = Connectors.ANDD;
+
+        for (int i = 4; i < lcm.length; i++) {
+            for (int j = 0; j < lcm.length; j++) {
+                lcm[i][j] = Connectors.NOTUSED;
+                lcm[j][i] = Connectors.NOTUSED;
+            }
+        }
+
+		Boolean[] puv = new Boolean[15];
+        puv[0] = true;
+        puv[1] = false;
+        puv[2] = true;
+        puv[3]  = false;
+
+        for(int i = 4; i < puv.length; i++) {
+            puv[i] = true;
+        }
+		
+		
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+		
+		var dec = new Decide(parameters, 3, points, lcm, puv);
+        
+		dec.LAUNCH();
+        String expectedLaunch = "NO";
+
+		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
+
+	}
 }
 
