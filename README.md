@@ -5,7 +5,7 @@
 
 
 
-#Way of working
+# Way of working
 
 Early on it was decided that each LIC became its own issue and was distributed between the group members. Sida took it upon himself to set up some base code to work from, Edvard constructed the build tool and Thea further developed the parameters that where used in testing and methods. Each pull request was reviewed by one other person. We said early on that we would set up a system so that one person always reviews the same persons pull requests - but due to how our working sessions developed, and our difference in knowledge when it came to git, this specific practice was not followed. We have agreed on how meetings should be done and when, and hopefully they will remain well structured in the future.
 
