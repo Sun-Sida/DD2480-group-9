@@ -445,7 +445,7 @@ class DecideTest {
 		points[1][4] = 1;
 
 		int cPts = 1; int dPts = 1;
-		double eps = 30; // is degrees, should be radians?
+		double eps = 0.1;
 
 		Parameters parameters = new Parameters(0, 0, eps, 0, 0, 0, 0, 0, 0, 0, 0, cPts, dPts, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 5, points);
@@ -474,7 +474,7 @@ class DecideTest {
 		points[1][4] = 2;
 
 		int cPts = 1; int dPts = 1;
-		double eps = 90; 
+		double eps = 3; 
 
 		Parameters parameters = new Parameters(0, 0, eps, 0, 0, 0, 0, 0, 0, 0, 0, cPts, dPts, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 5, points);

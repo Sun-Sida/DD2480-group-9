@@ -274,13 +274,13 @@ class Decide {
 				int ax = x1-x2; int ay = y1-y2; int bx = x3-x2; int by = y3-y2;
 
 				// angle between vector a and b
-				double angle = Math.toDegrees(Math.acos(
+				double angle = Math.acos(
 					(ax * bx + ay * by) / 
 						(
 							Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2)) * 
 							Math.sqrt(Math.pow(bx, 2) + Math.pow(by, 2))
 						)
-				));
+				);
 
 				if (angle < (PI - eps) || angle > (PI + eps)) return true;
 			}
