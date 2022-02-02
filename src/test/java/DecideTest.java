@@ -329,5 +329,22 @@ class DecideTest {
 		var dec = new Decide(parameters, 7, points);
 		assertFalse(dec.LIC8());
 	}
+	@Test
+	void LIC14TrueTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 100, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 1);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
 
+		var dec = new Decide(parameters, 7, points);
+		assertTrue(dec.LIC14());
+	}
+	@Test
+	void LIC14FalseTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 1, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 100);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
+
+		var dec = new Decide(parameters, 7, points);
+		assertFalse(dec.LIC14());
+	}
 }
