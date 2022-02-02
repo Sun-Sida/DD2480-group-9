@@ -23,19 +23,21 @@ class Decide {
 		this.NUMPOINTS = NUMPOINTS;
 		this.points = points;
 	}
-	public Decide() {}
 
 
     //LIC conditions
-    public boolean LIC0(double[] X, double[] Y, int numpoints, double length1) {
+    public boolean LIC0() {
+		if (parameters.LENGTH1< 0) return false;
 		double x1, y1, x2, y2, dist;
-		for(int i = 1; i < numpoints; i++){
-			x1 = X[i-1];
-			y1 = Y[i-1];
-			x2 = X[i];
-			y2 = Y[i];
+		for(int i = 0; i < NUMPOINTS-1; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			//System.out.println(x1);
 			dist = Point2D.distance(x1,y1,x2,y2);
-			if(dist > length1){return true;}
+			System.out.println(dist);
+			if(dist > parameters.LENGTH1) return true;
 		}
 		return false;
 	}
@@ -127,10 +129,10 @@ class Decide {
 	}
 
 	public boolean LIC5() {
-		//System.out.println(points[3][0]);
+		//System.out.println(points[0][1]);
 
 		for(int i = 0; i < (points.length - 1); i++){
-			if ((points[i][0] > points[i+1][0])) {
+			if ((points[0][i] > points[0][i+1])) {
 				return true;
 			}
 		}
@@ -138,6 +140,40 @@ class Decide {
 	}
 
 	public boolean LIC6() {
+		//if (NUMPOINTS < 3) return false;
+		if (3 >= parameters.getN_PTS() && parameters.getN_PTS() >= NUMPOINTS || parameters.getDIST() < 0 || NUMPOINTS < 3) return false;
+
+		for(int i = 0; i < NUMPOINTS - parameters.getN_PTS() +1; i++){
+			int end = i + parameters.getN_PTS() - 1;
+			if (points[0][i] == points[0][end] && points[1][i] == points[1][end]){
+				//When there is no line: Euclidean distance is enough.
+				for (int j = i+1; j<end; j++){
+					//Calculate the distance to a point (using Euclidean distance)
+					if (distance(points[0][i],points[0][j], points[1][i], points[1][j]) > parameters.getDIST()) {
+						return true;
+					}
+				}
+			} else {
+				//Line equation: ax+by+c = 0
+				int a,b,c;
+				int diffX = difference(points[0][i],points[0][end]);
+				int diffY = difference(points[1][i], points[1][end]);
+				int k = diffY/diffX;
+				int m = points[1][i] - k * points[0][i];
+				a = -k;
+				b = 1;
+				c = -m;
+				for (int j = i+1; j<end; j++){
+					//Distance between point and line from wiki: abs(line equation) / sqrt(a² + b²)
+					int distance_point_and_line = (int) (Math.abs(a*points[0][j] + b*points[1][j] + c) / Math.sqrt(a*a + b*b));
+					if (distance_point_and_line > parameters.getDIST()) {
+						return true;
+					}
+				}
+			}
+
+		}
+
 		return false;
 	}
 
@@ -303,5 +339,14 @@ class Decide {
     public void decide(int numpoints, int[] points, int[][] LCM, int[] PUV) {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
 
+	}
+	public static int distance(int x1, int x2, int y1, int y2){
+		int diffX = difference(x2,x1);
+		int diffY = difference(y2,y1);
+		return (int) Math.sqrt(diffX*diffX + diffY*diffY);
+	}
+
+	public static int difference(int x1, int x2) {
+		return x2-x1;
 	}
 }
