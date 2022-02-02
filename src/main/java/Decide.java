@@ -183,7 +183,7 @@ class Decide {
 		}
 		int k_pts = parameters.getK_PTS();
 		for (int i = 0; i < NUMPOINTS-1-k_pts; i++){
-			if (distance(points[0][i],points[0][i+k_pts],points[1][i], points[1][i+k_pts]) < parameters.getLENGTH1()) {
+			if (distance(points[0][i],points[0][i+k_pts],points[1][i], points[1][i+k_pts]) > parameters.getLENGTH1()) {
 				return true;
 			}
 		}

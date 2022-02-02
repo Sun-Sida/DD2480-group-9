@@ -161,20 +161,38 @@ class DecideTest {
 		int num_points = 5;
 		int[][] points = new int[2][num_points];
 		points[0][0] = 2;
-		points[0][1] = 1;
+		points[0][1] = 6;
 		points[0][2] = 4;
 		points[0][3] = 7;
 		points[0][4] = 11;
-		points[1][0] = 1;
-		points[1][1] = 1;
-		points[1][2] = 1;
-		points[1][3] = 2;
+		points[1][0] = 4;
+		points[1][1] = 3;
+		points[1][2] = 5;
+		points[1][3] = 11;
 		points[1][4] = 2;
 		Parameters parameters = new Parameters(1.0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, num_points, points);
-		assertTrue(dec.LIC6());
+		assertTrue(dec.LIC7());
 	}
-
+	@Test
+	void LIC7FalseTest(){
+		//Will test the euclidean distance. ALl y:s are zero
+		int num_points = 5;
+		int[][] points = new int[2][num_points];
+		points[0][0] = 2;
+		points[0][1] = 6;
+		points[0][2] = 4;
+		points[0][3] = 7;
+		points[0][4] = 11;
+		points[1][0] = 4;
+		points[1][1] = 3;
+		points[1][2] = 5;
+		points[1][3] = 11;
+		points[1][4] = 2;
+		Parameters parameters = new Parameters(100.0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, num_points, points);
+		assertFalse(dec.LIC7());
+	}
   	@Test
 	void LIC11FalseInputTest(){
 		int[][] points = new int[2][5];
