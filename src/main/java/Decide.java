@@ -182,17 +182,32 @@ class Decide {
 	
 	
     //conditions met vector
-    public int[] CMV() {
+    public boolean[] CMV() {
 		//computes the conditions met vector from the LIC's
-		int[] vector = {0};
-        return vector;
+		boolean[] cmv = new boolean[15];
+		cmv[0] = LIC0();
+		cmv[1] = LIC1();
+		cmv[2] = LIC2();
+		cmv[3] = LIC3();
+		cmv[4] = LIC4();
+		cmv[5] = LIC5();
+		cmv[6] = LIC6();
+		cmv[7] = LIC7();
+		cmv[8] = LIC8();
+		cmv[9] = LIC9();
+		cmv[10] = LIC10();
+		cmv[11] = LIC11();
+		cmv[12] = LIC12();
+		cmv[13] = LIC13();
+		cmv[14] = LIC14();
+        return cmv;
     }
     
     //Preliminary unlock matrix
-    public int[][] PMV() {
+    public boolean[][] PMV(boolean[] cmv) {
 		//computes the PUM matrix from the CMV and the LCM
-		int[][] matrix = { {0} };
-        return matrix;
+		boolean [][] pmv = new boolean[15][15];
+        return pmv;
 	}
 	
 	//Final unlock vector
@@ -208,4 +223,8 @@ class Decide {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
 
 	}
+	public static void main(String[] args) {
+		boolean[] cmv = new boolean[15];
+		cmv = CMV();
+    }
 }
