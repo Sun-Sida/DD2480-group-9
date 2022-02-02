@@ -239,6 +239,43 @@ class Decide {
 	}
 
 	public boolean LIC9() {
+		/*
+		There exists at least one set of three data points separated by exactly C PTS and D PTS
+		consecutive intervening points, respectively, that form an angle such that:
+		angle < (PI − EPSILON) or angle > (PI + EPSILON).
+		The second point of the set of three points is always the vertex of the angle. If either the first
+		point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+		is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+		1 ≤ C PTS, 1 ≤ D PTS
+		C PTS + D PTS ≤ NUMPOINTS − 3
+		*/
+
+		int cPts = parameters.getC_PTS(); int dPts = parameters.getD_PTS();
+		double eps = parameters.getEPSILON();
+
+		if ((NUMPOINTS < 5) || (cPts < 1 || dPts < 1) || (cPts + dPts > (NUMPOINTS - 3))) 
+			return false;
+
+		for (int i = 0; i < (NUMPOINTS - (cPts + dPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + cPts]; int x3 = points[0][i + cPts + 2 + dPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + cPts]; int y3 = points[1][i + cPts + 2 + dPts];
+
+			if (!(x1 == x2 && y1 == y2) && !(x3 == x2 && y3 == y2)) {
+				// vectors a and b that originate from point 2
+				int ax = x1-x2; int ay = y1-y2; int bx = x3-x2; int by = y3-y2;
+
+				// angle between vector a and b
+				double angle = Math.toDegrees(Math.acos(
+					(ax * bx + ay * by) / 
+						(
+							Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2)) * 
+							Math.sqrt(Math.pow(bx, 2) + Math.pow(by, 2))
+						)
+				));
+
+				if (angle < (PI - eps) || angle > (PI + eps)) return true;
+			}
+		}
 		return false;
 	}
 
