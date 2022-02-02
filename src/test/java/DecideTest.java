@@ -6,7 +6,7 @@ class DecideTest {
 
     @Test
     void LIC0TrueTest(){
-        int[][] points = new int[2][2];
+        int[][] points = new int[2][3];
             points[1][0] = 1;
             points[0][0] = 3;
 			points[1][1] = 1;
@@ -34,7 +34,65 @@ class DecideTest {
         //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
     }
+  
+      void LIC1TrueTest(){
+        int[][] points = new int[2][3];
+            points[1][0] = 1;
+            points[0][0] = 3;
+			points[1][1] = 1;
+			points[0][1] = 5;
+            points[1][2] = 1;
+			points[0][2] = 7;
+        Parameters parameters = new Parameters(2.0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+        assertTrue(dec.LIC1());
+        //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
+    }
+
+    @Test
+    void LIC1FalseTest(){
+        int[][] points = new int[2][3];
+            points[1][0] = 1;
+            points[0][0] = 3;
+			points[1][1] = 1;
+			points[0][1] = 5;
+            points[1][1] = 2;
+			points[0][1] = 7;
+        Parameters parameters = new Parameters(2.0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+        assertFalse(dec.LIC1());
+        //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
+
+    }
+
+    @Test
+    void LIC2TrueTest(){
+        int[][] points = new int[2][3];
+            points[0][0] = 1;
+			points[1][0] = 1;
+			points[0][1] = 3;
+			points[1][1] = 1;
+            points[0][2] = 3;
+			points[1][2] = 2;
+            Parameters parameters = new Parameters(10.0, 0, 3.14/2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		    var dec = new Decide(parameters, 3, points);
+            assertTrue(dec.LIC2());
+    }
+
+    @Test
+    void LIC2FalseTest(){
+        int[][] points = new int[2][3];
+            points[0][0] = 1;
+			points[1][0] = 1;
+			points[0][1] = 0;
+			points[1][1] = 0;
+            points[0][2] = -1;
+			points[1][2] = 1;
+            Parameters parameters = new Parameters(10.0, 0, 3.20/2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		    var dec = new Decide(parameters, 3, points);
+            assertFalse(dec.LIC2());
+    }
 
     @Test
 		void LIC4FalseTest(){
@@ -367,4 +425,112 @@ class DecideTest {
 		assertFalse(dec.LIC8());
 	}
 
+	@Test
+	void LIC9TrueTest() {
+		int[][] points = new int[2][5];
+
+		points[0][0] = -2;
+		points[1][0] = 1;
+
+		points[0][1] = -1;
+		points[1][1] = -1;
+
+		points[0][2] = 0;
+		points[1][2] = 0;
+
+		points[0][3] = 1;
+		points[1][3] = 1;
+
+		points[0][4] = 2;
+		points[1][4] = 1;
+
+		int cPts = 1; int dPts = 1;
+		double eps = 30; // is degrees, should be radians?
+
+		Parameters parameters = new Parameters(0, 0, eps, 0, 0, 0, 0, 0, 0, 0, 0, cPts, dPts, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 5, points);
+		assertTrue(dec.LIC9());
+	}
+
+		
+
+	@Test
+	void LIC9FalseTest() {
+		int[][] points = new int[2][5];
+
+		points[0][0] = -1;
+		points[1][0] = 2;
+
+		points[0][1] = -1;
+		points[1][1] = -1;
+
+		points[0][2] = 0;
+		points[1][2] = 0;
+
+		points[0][3] = 1;
+		points[1][3] = 1;
+		
+		points[0][4] = 1;
+		points[1][4] = 2;
+
+		int cPts = 1; int dPts = 1;
+		double eps = 90; 
+
+		Parameters parameters = new Parameters(0, 0, eps, 0, 0, 0, 0, 0, 0, 0, 0, cPts, dPts, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 5, points);
+		assertFalse(dec.LIC9());
+	}
+
+	void LIC10TrueTest() {
+		int[][] points = new int[2][5];
+
+		points[0][0] = -2;
+		points[1][0] = 2;
+
+		points[0][1] = -1;
+		points[1][1] = -1;
+
+		points[0][2] = 0;
+		points[1][2] = 0;
+
+		points[0][3] = 1;
+		points[1][3] = 1;
+
+		points[0][4] = 2;
+		points[1][4] = 2;	// forms a triangle with area=2
+
+		int ePts = 1; int fPts = 1;
+		double area = 1; 
+
+		Parameters parameters = new Parameters(0, 0, 0, area, 0, 0, 0, 0, 0, 0, 0, 0, 0, ePts, fPts, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 5, points);
+		assertTrue(dec.LIC10());
+	}
+
+	@Test
+	void LIC10FalseTest() {
+		int[][] points = new int[2][5];
+
+		points[0][0] = -2;
+		points[1][0] = 1;
+
+		points[0][1] = -1;
+		points[1][1] = -1;
+
+		points[0][2] = 0;
+		points[1][2] = 0;
+
+		points[0][3] = 1;
+		points[1][3] = 1;
+
+		points[0][4] = 2;
+		points[1][4] = 1;	// forms a triangle with area=2
+
+		int ePts = 1; int fPts = 1;
+		double area = 3; 
+
+		Parameters parameters = new Parameters(0, 0, 0, area, 0, 0, 0, 0, 0, 0, 0, 0, 0, ePts, fPts, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 5, points);
+		assertFalse(dec.LIC10());
+	}
 }
