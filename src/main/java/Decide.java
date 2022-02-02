@@ -361,7 +361,37 @@ class Decide {
 	}
 
 	public boolean LIC13() {
-		return false;
+		if(NUMPOINTS < 5){
+			return false;
+		}
+		boolean cond1 = false;
+		boolean cond2 = false;
+		double rad_1 = parameters.getRADIUS1();
+		double rad_2 = parameters.getRADIUS2();
+		int A_PTS = parameters.getA_PTS();
+		int B_PTS = parameters.getB_PTS();
+		for (int i = 0; i < (NUMPOINTS - (A_PTS + B_PTS + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + A_PTS]; int x3 = points[0][i + A_PTS + 2 + B_PTS];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + A_PTS]; int y3 = points[1][i + A_PTS + 2 + B_PTS];
+
+			//Find Centroid
+			double centroid_x = (x1+x2+x3)/3.0;
+			double centroid_y = (y1+y2+y3)/3.0;
+			double dist_1 = Math.abs(Point2D.distance(x1, y1, centroid_x, centroid_y));
+			double dist_2 = Math.abs(Point2D.distance(x2, y2, centroid_x, centroid_y));
+			double dist_3 = Math.abs(Point2D.distance(x3, y3, centroid_x, centroid_y));
+			if(dist_1 > rad_1 || dist_2 > rad_1 || dist_3 > rad_1){
+				cond1 = true;
+			}
+			if(dist_1 <= rad_2 && dist_2 <= rad_2 && dist_3 <= rad_2){
+				cond2 = true;
+			}
+			if((cond1) && (cond2)){
+				return true;
+			}
+
+		}
+		return cond1 && cond2;
 	}
 
 	public boolean LIC14() {
