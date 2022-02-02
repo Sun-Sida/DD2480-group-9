@@ -150,4 +150,112 @@ class DecideTest {
 		assertFalse(dec.LIC12());
 	}
 
+	@Test
+	void LIC8TrueTest() {
+		int[][] points = new int[2][8];
+		points[0][0] = 10;
+		points[1][0] = 10;
+
+		points[0][1] = 15;
+		points[1][1] = 10;
+		
+		points[0][2] = 9;
+		points[1][2] = 14;
+		
+		points[0][3] = 11;
+		points[1][3] = 11;
+
+		points[0][4] = 10;
+		points[1][4] = 15;
+
+		points[0][5] = 20;
+		points[1][5] = 10;
+		
+		points[0][6] = 15;
+		points[1][6] = 19;
+
+		points[0][7] = 30;
+		points[1][7] = 10;
+
+		double rad = 30.0;
+		int aPts = 3;
+		int bPts = 2;
+
+		Parameters parameters = new Parameters(0, rad, 0, 0, 0, 0, 0, 0, 0, aPts, bPts, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 8, points);
+		assertFalse(dec.LIC8());
+	}
+
+	@Test
+	void LIC8FalseTest1() {
+
+		int[][] points = new int[2][8];
+		points[0][0] = 10;
+		points[1][0] = 10;
+
+		points[0][1] = 15;
+		points[1][1] = 10;
+		
+		points[0][2] = 9;
+		points[1][2] = 14;
+		
+		points[0][3] = 11;
+		points[1][3] = 11;
+
+		points[0][4] = 10;
+		points[1][4] = 15;
+
+		points[0][5] = 20;
+		points[1][5] = 10;
+		
+		points[0][6] = 15;
+		points[1][6] = 19;
+
+		points[0][7] = 30;
+		points[1][7] = 10;
+
+		double rad = 40.0;
+		int aPts = 3;
+		int bPts = 2;
+
+		Parameters parameters = new Parameters(0, rad, 0, 0, 0, 0, 0, 0, 0, aPts, bPts, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 8, points);
+		assertFalse(dec.LIC8());
+	}
+
+	@Test
+	void LIC8FalseTest2() {
+		// Should fail due to too few points.
+		int[][] points = new int[2][7];
+		points[0][0] = 10;
+		points[1][0] = 10;
+
+		points[0][1] = 15;
+		points[1][1] = 10;
+		
+		points[0][2] = 9;
+		points[1][2] = 14;
+		
+		points[0][3] = 11;
+		points[1][3] = 11;
+
+		points[0][4] = 10;
+		points[1][4] = 15;
+
+		points[0][5] = 20;
+		points[1][5] = 10;
+		
+		points[0][6] = 15;
+		points[1][6] = 19;
+
+		double rad = 35.0;
+		int aPts = 3;
+		int bPts = 2;
+
+		Parameters parameters = new Parameters(0, rad, 0, 0, 0, 0, 0, 0, 0, aPts, bPts, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 7, points);
+		assertFalse(dec.LIC8());
+	}
+
+	
 }
