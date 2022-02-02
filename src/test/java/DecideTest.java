@@ -6,7 +6,7 @@ class DecideTest {
 
     @Test
     void LIC0TrueTest(){
-        int[][] points = new int[2][2];
+        int[][] points = new int[2][3];
             points[1][0] = 1;
             points[0][0] = 3;
 			points[1][1] = 1;
@@ -31,6 +31,37 @@ class DecideTest {
         Parameters parameters = new Parameters(10.0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 2, points);
         assertFalse(dec.LIC0());
+        //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
+
+    }
+  
+      void LIC1TrueTest(){
+        int[][] points = new int[2][3];
+            points[1][0] = 1;
+            points[0][0] = 3;
+			points[1][1] = 1;
+			points[0][1] = 5;
+            points[1][2] = 1;
+			points[0][2] = 7;
+        Parameters parameters = new Parameters(2.0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+        assertTrue(dec.LIC1());
+        //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
+
+    }
+
+    @Test
+    void LIC1FalseTest(){
+        int[][] points = new int[2][3];
+            points[1][0] = 1;
+            points[0][0] = 3;
+			points[1][1] = 1;
+			points[0][1] = 5;
+            points[1][1] = 2;
+			points[0][1] = 7;
+        Parameters parameters = new Parameters(2.0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+        assertFalse(dec.LIC1());
         //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
     }
@@ -62,7 +93,6 @@ class DecideTest {
 		    var dec = new Decide(parameters, 3, points);
             assertFalse(dec.LIC2());
     }
-
 
     @Test
 		void LIC4FalseTest(){

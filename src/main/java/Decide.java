@@ -43,6 +43,21 @@ class Decide {
 	}
 
 	public boolean LIC1() {
+		double x1, y1, x2, y2, x3, y3, radius;
+		radius = parameters.RADIUS1;
+		if (radius<0) return false;
+		if (NUMPOINTS<3) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
+			if((Point2D.distance(x1,y1,x2,y2)<radius) && (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x1,y1,x2,y2)<radius)&& (Point2D.distance(x2,y2,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x2,y2,x3,y3)<radius)&& (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+		}
 		return false;
 	}
 
