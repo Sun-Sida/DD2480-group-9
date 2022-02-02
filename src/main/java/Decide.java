@@ -23,19 +23,21 @@ class Decide {
 		this.NUMPOINTS = NUMPOINTS;
 		this.points = points;
 	}
-	public Decide() {}
 
 
     //LIC conditions
-    public boolean LIC0(double[] X, double[] Y, int numpoints, double length1) {
+    public boolean LIC0() {
+		if (parameters.LENGTH1< 0) return false;
 		double x1, y1, x2, y2, dist;
-		for(int i = 1; i < numpoints; i++){
-			x1 = X[i-1];
-			y1 = Y[i-1];
-			x2 = X[i];
-			y2 = Y[i];
+		for(int i = 0; i < NUMPOINTS-1; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			//System.out.println(x1);
 			dist = Point2D.distance(x1,y1,x2,y2);
-			if(dist > length1){return true;}
+			System.out.println(dist);
+			if(dist > parameters.LENGTH1) return true;
 		}
 		return false;
 	}
@@ -180,6 +182,42 @@ class Decide {
 	}
 
 	public boolean LIC8() {
+		/*
+		There exists at least one set of three data points separated by 
+		exactly A PTS and B PTS consecutive intervening points, respectively, 
+		that cannot be contained within or on a circle of radius RADIUS1. 
+		The condition is not met when NUMPOINTS < 5.
+		1 ≤ A PTS, 1 ≤ B PTS
+		A PTS + B PTS ≤ (NUMPOINTS − 3)
+		*/
+
+		int aPts = parameters.getA_PTS();
+		int bPts = parameters.getB_PTS();
+
+		// Pre-existing conditions on success
+		if ((NUMPOINTS < 5) || (aPts < 1 || bPts < 1) || (aPts + bPts > (NUMPOINTS - 3))) 
+			return false;
+
+		double rad = parameters.RADIUS1;
+
+		for (int i = 0; i < (NUMPOINTS - (aPts + bPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + aPts]; int x3 = points[0][i + aPts + 2 + bPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + aPts]; int y3 = points[1][i + aPts + 2 + bPts];
+
+			// points create a triangle in 2D space
+			double dist12 = Point2D.distance(x1, y1, x2, y2);
+			double dist13 = Point2D.distance(x1, y1, x3, y3);
+			double dist23 = Point2D.distance(x2, y2, x3, y3);
+
+			/*
+			If the longest side of the triangle is larger than the diameter of the circle, 
+			then no circle that spanns the three points is possible. In all other cases there 
+			will be a circle that can contain all points.
+			*/
+			double maxDist = Math.max(dist12, Math.max(dist13, dist23));
+			if (maxDist > 2 * rad) return true;
+		}
+
 		return false;
 	}
 
@@ -191,11 +229,41 @@ class Decide {
 		return false;
 	}
 
-	public boolean LIC11() {
+	public boolean LIC11() {	
+		//1 ≤G PTS ≤NUMPOINTS−2
+		if (parameters.getG_PTS() < 1 || parameters.getG_PTS() > NUMPOINTS -2) return false;
+		if (NUMPOINTS<3) return false;
+		for(int i=0; i<NUMPOINTS-parameters.getG_PTS()-1; i++){
+			int j = i + parameters.G_PTS +1;
+			if((points[0][j]- points[0][i])<0) return true;
+		}
 		return false;
 	}
 
 	public boolean LIC12() {
+		double x1, x2, y1, y2, dist;
+		boolean cond1 = false;
+		boolean cond2 = false;
+		if(NUMPOINTS < 3){
+			return false;
+		}
+		for(int i = 0; i < NUMPOINTS-parameters.getK_PTS()-1; i++){
+			x1 = points[0][i];
+			x2 = points[0][i+parameters.getK_PTS()+1];
+			y1 = points[1][i];
+			y2 = points[1][i+parameters.getK_PTS()+1];
+			dist = Point2D.distance(x1,y1,x2,y2);
+			if(dist > parameters.getLENGTH1()){
+				cond1 = true;
+			}
+			if(dist < parameters.getLENGTH2()){
+				cond2 = true;
+			}
+		if((cond1) & (cond2)){
+			return true;
+		}
+
+		}
 		return false;
 	}
 
