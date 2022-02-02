@@ -169,6 +169,29 @@ class Decide {
 	}
 
 	public boolean LIC12() {
+		double x1, x2, y1, y2, dist;
+		boolean cond1 = false;
+		boolean cond2 = false;
+		if(NUMPOINTS < 3){
+			return false;
+		}
+		for(int i = 0; i < NUMPOINTS-parameters.getK_PTS()-1; i++){
+			x1 = points[0][i];
+			x2 = points[0][i+parameters.getK_PTS()+1];
+			y1 = points[1][i];
+			y2 = points[1][i+parameters.getK_PTS()+1];
+			dist = Point2D.distance(x1,y1,x2,y2);
+			if(dist > parameters.getLENGTH1()){
+				cond1 = true;
+			}
+			if(dist < parameters.getLENGTH2()){
+				cond2 = true;
+			}
+		if((cond1) & (cond2)){
+			return true;
+		}
+
+		}
 		return false;
 	}
 
