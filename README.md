@@ -22,6 +22,11 @@ Jonathan Hedin
 </ul>
 
 Oscar Ingels
+<ul>
+    <li> Implemented LIC 12, 13, 14 and their test cases.</li>
+    <li> Merged pull request.</li>
+    <li> Worked on  way of working.</li>
+</ul>
 
 Thea Nöteberg
 
