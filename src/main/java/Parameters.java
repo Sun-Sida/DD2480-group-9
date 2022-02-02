@@ -1,4 +1,3 @@
-
 public class Parameters {
     public double LENGTH1 ; // Length in LICs 0 , 7 , 12
     public double RADIUS1 ; // Radius in LICs 1 , 8 , 13
@@ -43,6 +42,7 @@ public class Parameters {
         this.RADIUS2 = RADIUS2;
         this.AREA2 = AREA2;           
     }
+
 
     public double getLENGTH1(){
         return LENGTH1;

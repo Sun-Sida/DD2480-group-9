@@ -95,11 +95,45 @@ class Decide {
 		return false;
 	}
 
-	public boolean LIC4() {
+	public boolean LIC4() {	
+		boolean[] visitedQuads = new boolean[4];	
+		int numberOfQuads = 0;
+		//(1<=QUADS<=3)		
+		if(parameters.getQUADS() < 1 || parameters.getQUADS() > 4) return false;
+		//(2<=Q_PTS<=NumPOINTS)
+		if(parameters.getQ_PTS() < 2 || parameters.getQ_PTS() > NUMPOINTS) return false;
+	
+		for(int i = 0; i < NUMPOINTS - parameters.getQ_PTS() +1; i++){
+			
+			Arrays.fill(visitedQuads, Boolean.FALSE);
+			for(int j = i; j < i + parameters.getQ_PTS(); j++){
+				//Checks which quadrants the point is located in
+				if(points[0][j] >= 0 && points[1][j]>= 0) visitedQuads[0] = true;
+				else if(points[0][j] < 0 && points[1][j]>= 0) visitedQuads[1] = true;
+				else if(points[0][j] < 0 && points[1][j]  <= 0) visitedQuads[2] = true;
+				else if(points[0][j] > 0 && points[1][j] < 0) visitedQuads[3] = true;
+				
+				//Checks how many quadrants we have points in
+				numberOfQuads = 0;
+				for(int k = 0; k < 4; k++){
+					if(visitedQuads[k]==true) numberOfQuads++;
+					System.out.println(numberOfQuads);
+				}
+				if(numberOfQuads > parameters.getQUADS()) return true;
+			}
+		}
+	
 		return false;
 	}
 
 	public boolean LIC5() {
+		//System.out.println(points[3][0]);
+
+		for(int i = 0; i < (points.length - 1); i++){
+			if ((points[i][0] > points[i+1][0])) {
+				return true;
+			}
+		}
 		return false;
 	}
 
