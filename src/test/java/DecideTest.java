@@ -553,9 +553,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 5, points);
 		assertFalse(dec.LIC10());
 	}
-}
 
-@Test
+	@Test
     public void pum_example1(){
         int[][] points = new int[0][0];
         Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -652,3 +651,4 @@ class DecideTest {
             }
         }
     }
+}
