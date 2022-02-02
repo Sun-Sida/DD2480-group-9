@@ -12,21 +12,29 @@ class Decide {
 	
 	
 	//Global variables
-	int NUMPOINTS = 3;
-	double[] X = {0.23, 6.51, 0.15};
-	double[] Y = {1.31, 2.20, 1.3};
-	double LENGTH1 = 2.0;
+	int NUMPOINTS;
 	double PI = 3.1415926535;
-	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
 	Boolean[] cmv;
 	Connectors[][] lcm;
+	Boolean[] puv;
 
 	public Decide(Parameters parameters, int NUMPOINTS, int[][] points){
 		this.parameters = parameters;
 		this.NUMPOINTS = NUMPOINTS;
 		this.points = points;
+
+		cmv = new Boolean[15];
+		
+	}
+
+	public Decide(Parameters parameters, int NUMPOINTS, int[][] points, Connectors[][]lcm, Boolean[] puv){
+		this.parameters = parameters;
+		this.NUMPOINTS = NUMPOINTS;
+		this.points = points;
+		this.lcm = lcm;
+		this.puv = puv;
 
 		cmv = new Boolean[15];
 		
@@ -513,6 +521,23 @@ class Decide {
 				}
 		}
         return fuv;
+	}
+
+	public void LAUNCH(){
+		Boolean[] cmv = CMV();
+		Boolean[][] pum = PMV(cmv, lcm);
+		Boolean[] fuv = FUV(pum, puv);
+		boolean temp = true;
+		for (int i=0; i < fuv.length; i++){
+			if(fuv[i] == false){
+				temp = false;
+			}
+		}
+		if(temp){
+			System.out.println("YES");
+		}else{
+			System.out.println("NO");
+		}
 	}
 	
     

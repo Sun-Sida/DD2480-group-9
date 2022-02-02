@@ -2,7 +2,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.Assertions;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 //import static org.junit.jupiter.api.Assertions.assertSame;
 class DecideTest {
 
@@ -768,6 +775,35 @@ class DecideTest {
 
         }
 
+    }
+
+    @Test 
+    void TrueLaunchTest() {
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        Connectors[][] lcm = new Connectors[15][15];
+        for (int i = 0; i < lcm.length; i++){
+            for (int j = 0; j <lcm[i].length; j++){
+                if(i == j) continue;
+                lcm[i][j] = Connectors.NOTUSED;
+            }
+            
+        }
+
+        Boolean[] puv = new Boolean[lcm.length];
+        for (int i = 0; i < lcm.length; i++){
+            puv[i] = false;
+        }
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+		var dec = new Decide(parameters, 0, points, lcm, puv);
+        dec.LAUNCH();
+        String expectedLaunch = "YES";
+        Assertions.assertSame(expectedLaunch, outContent.toString());
+
+        
     }
 }
 
