@@ -20,6 +20,7 @@ class DecideTest {
 
     }
 
+
     @Test
     void LIC0FalseTest(){
         int[][] points = new int[2][2];
@@ -279,4 +280,5 @@ class DecideTest {
 		assertFalse(dec.LIC8());
 	}
 
+	
 }
