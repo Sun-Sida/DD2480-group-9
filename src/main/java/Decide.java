@@ -226,6 +226,36 @@ class Decide {
 	}
 
 	public boolean LIC10() {
+	/*
+	There exists at least one set of three data points separated by exactly E PTS and F PTS con-
+	secutive intervening points, respectively, that are the vertices of a triangle with area greater
+	than AREA1. The condition is not met when NUMPOINTS < 5.
+	1 ≤ E PTS, 1 ≤ F PTS
+	E PTS + F PTS ≤ NUMPOINTS − 3
+	*/
+
+		int ePts = parameters.getE_PTS(); int fPts = parameters.getF_PTS();
+		
+		if ((NUMPOINTS < 5) || (ePts < 1 || fPts < 1) || (ePts + fPts > (NUMPOINTS - 3))) 
+			return false;
+
+		double area = parameters.getAREA1();
+
+		for (int i = 0; i < (NUMPOINTS - (ePts + fPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + ePts]; int x3 = points[0][i + ePts + 2 + fPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + ePts]; int y3 = points[1][i + ePts + 2 + fPts];
+
+			double sideA = Point2D.distance(x1, y1, x2, y2);
+			double sideB = Point2D.distance(x1, y1, x3, y3);
+			double sideC = Point2D.distance(x2, y2, x3, y3);
+
+			// Heron's formula
+			double s = (sideA + sideB + sideC) / 2;
+			double triArea = Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
+
+			if (triArea > area) return true;
+		}
+
 		return false;
 	}
 
