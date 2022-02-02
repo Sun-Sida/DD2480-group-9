@@ -16,6 +16,11 @@
 
     <!--1 -->
     <build>
+        <resources>
+            <resource>
+              <directory>src/test/java</directory>
+            </resource>
+          </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
