@@ -2,6 +2,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertSame;
 class DecideTest {
 
     @Test
@@ -605,4 +607,102 @@ class DecideTest {
 		var dec = new Decide(parameters, 7, points);
 		assertFalse(dec.LIC14());
 	}
+	@Test
+    public void pum_example1(){
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 7, points);
+    
+        Boolean[] cmv = new Boolean[15];
+        cmv[0]  = false;
+        cmv[1]  = true;
+        cmv[2]  = true;
+        cmv[3]  = true;
+        cmv[4]  = false;
+        cmv[5]  = false;
+        cmv[6]  = false;
+        cmv[7]  = false;
+        cmv[8]  = false;
+        cmv[9]  = false;
+        cmv[10] = false;
+        cmv[11] = false;
+        cmv[12] = false;
+        cmv[13] = false;
+        cmv[14] = false;
+        Connectors[][] lcm = new Connectors[15][15];
+        lcm[0][0] = Connectors.ANDD;
+        lcm[0][1] = Connectors.ANDD;
+        lcm[0][2] = Connectors.ORR;
+        lcm[0][3] = Connectors.ANDD;
+
+        lcm[1][0] = Connectors.ANDD;
+        lcm[1][1] = Connectors.ANDD;
+        lcm[1][2] = Connectors.ORR;
+        lcm[1][3] = Connectors.ORR;
+
+        lcm[2][0] = Connectors.ORR;
+        lcm[2][1] = Connectors.ORR;
+        lcm[2][2] = Connectors.ANDD;
+        lcm[2][3] = Connectors.ANDD;
+
+        lcm[3][0] = Connectors.ANDD;
+        lcm[3][1] = Connectors.ORR;
+        lcm[3][2] = Connectors.ANDD;
+        lcm[3][3] = Connectors.ANDD;
+
+        for (int i = 4; i < lcm.length; i++) {
+            for (int j = 0; j < lcm.length; j++) {
+                lcm[i][j] = Connectors.NOTUSED;
+                lcm[j][i] = Connectors.NOTUSED;
+            }
+        }
+        Boolean[][] pum = dec.PMV(cmv, lcm);
+
+        boolean[][] expectedPUM = new boolean[15][15];
+        expectedPUM[0][1] = false;
+        expectedPUM[0][2] = true;
+        expectedPUM[0][3] = false;
+        expectedPUM[0][4] = true;
+
+        expectedPUM[1][0] = false;
+        expectedPUM[1][2] = true;
+        expectedPUM[1][3] = true;
+        expectedPUM[1][4] = true;
+
+        expectedPUM[2][0] = true;
+        expectedPUM[2][1] = true;
+        expectedPUM[2][3] = true;
+        expectedPUM[2][4] = true;
+        
+        expectedPUM[3][0] = false;
+        expectedPUM[3][1] = true;
+        expectedPUM[3][2] = true;
+        expectedPUM[3][4] = true;
+
+        expectedPUM[4][0] = true;
+        expectedPUM[4][1] = true;
+        expectedPUM[4][2] = true;
+        expectedPUM[4][4] = true;
+
+        for (int i = 4; i < expectedPUM.length; i++) {
+            for (int j = 0; j < expectedPUM.length; j++) {
+                if(i == j)
+                    continue;
+                expectedPUM[i][j] = true;
+                expectedPUM[j][i] = true;
+            }
+        }
+
+        for (int i = 0; i < expectedPUM.length; i++) {
+            for (int j = 0; j < expectedPUM.length; j++) {
+                if(i == j){
+
+                }else{
+                    assertEquals(expectedPUM[i][j], pum[i][j]);
+                }
+                
+            }
+        }
+    }
 }
+

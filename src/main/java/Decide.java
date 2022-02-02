@@ -1,6 +1,10 @@
 import java.awt.geom.Point2D;
 import java.util.Arrays;
-
+enum Connectors {
+	NOTUSED,
+	ORR, 
+	ANDD
+}
 
 class Decide {
     //Program for deciding hypothetical anti-ballistic missile system
@@ -16,13 +20,17 @@ class Decide {
 	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
+	Boolean[] cmv;
+	Connectors[][] lcm;
 
 	public Decide(Parameters parameters, int NUMPOINTS, int[][] points){
 		this.parameters = parameters;
 		this.NUMPOINTS = NUMPOINTS;
 		this.points = points;
-	}
 
+		cmv = new Boolean[15];
+		
+	}
 
     //LIC conditions
     public boolean LIC0() {
@@ -331,6 +339,7 @@ class Decide {
 		if (NUMPOINTS<3) return false;
 		for(int i=0; i<NUMPOINTS-parameters.getG_PTS()-1; i++){
 			int j = i + parameters.G_PTS +1;
+			//x[j]-x[i] < 0
 			if((points[0][j]- points[0][i])<0) return true;
 		}
 		return false;
@@ -428,17 +437,60 @@ class Decide {
 	
 	
     //conditions met vector
-    public int[] CMV() {
+    public Boolean[] CMV() {
 		//computes the conditions met vector from the LIC's
-		int[] vector = {0};
-        return vector;
+		Boolean[] cmv = new Boolean[15];
+		cmv[0] = LIC0();
+		cmv[1] = LIC1();
+		cmv[2] = LIC2();
+		cmv[3] = LIC3();
+		cmv[4] = LIC4();
+		cmv[5] = LIC5();
+		cmv[6] = LIC6();
+		cmv[7] = LIC7();
+		cmv[8] = LIC8();
+		cmv[9] = LIC9();
+		cmv[10] = LIC10();
+		cmv[11] = LIC11();
+		cmv[12] = LIC12();
+		cmv[13] = LIC13();
+		cmv[14] = LIC14();
+        return cmv;
     }
     
     //Preliminary unlock matrix
-    public int[][] PMV() {
+    public Boolean[][] PMV(Boolean[] cmv, Connectors[][] lcm) {
 		//computes the PUM matrix from the CMV and the LCM
-		int[][] matrix = { {0} };
-        return matrix;
+		Boolean [][] pum = new Boolean[15][15];
+		for (int i = 0; i <15; i++){
+			for (int j = 0; j <15; j++){
+				//the diagonal is null in lcm
+				if (i!=j){
+					switch(lcm[i][j]){
+						case NOTUSED:
+						pum[i][j] = true;
+						break;
+						case ANDD:
+							if(cmv[i]==false || cmv[j]==false){
+								pum[i][j] = false;
+							} else {
+								pum[i][j] = true;
+							}
+						break;
+						case ORR:
+							if(cmv[i]==true || cmv[j]==true){
+								pum[i][j] = true;
+							} else {
+								pum[i][j] = false;
+							}
+						break;
+					}
+				}
+			}
+		}
+
+
+        return pum;
 	}
 	
 	//Final unlock vector
@@ -454,6 +506,7 @@ class Decide {
 		//decides method, calls CMV, PUM, FUV and decides if it launches or not
 
 	}
+
 	public static int distance(int x1, int x2, int y1, int y2){
 		int diffX = difference(x2,x1);
 		int diffY = difference(y2,y1);
