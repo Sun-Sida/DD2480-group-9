@@ -12,7 +12,6 @@ class Decide {
 	double[] X = {0.23, 6.51, 0.15};
 	double[] Y = {1.31, 2.20, 1.3};
 	double LENGTH1 = 2.0;
-	double AREA1 = 6.6;
 	double PI = 3.1415926535;
 	int EPSILON = 90;
 	Parameters parameters;
@@ -96,20 +95,24 @@ class Decide {
 
 	public boolean LIC3() {
 		double x1, y1, x2, y2, x3, y3, area;
+		double AREA1 = parameters.getAREA1();
 		for(int i = 2; i < NUMPOINTS; i++){
-			x1 = X[i-2];
-			y1 = Y[i-2];
-			x2 = X[i-1];
-			y2 = Y[i-1];
-			x3 = X[i];
-			y3 = Y[i];
-			area = (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2.0;
+			x1 = points[0][i-2];
+			y1 = points[1][i-2];
+			x2 = points[0][i-1];
+			y2 = points[1][i-1];
+			x3 = points[0][i];
+			y3 = points[1][i];
 			
-			//System.out.println(area);
-			
-			if(area > AREA1){
-				return true;
-			}
+			double sideA = Point2D.distance(x1, y1, x2, y2);
+			double sideB = Point2D.distance(x1, y1, x3, y3);
+			double sideC = Point2D.distance(x2, y2, x3, y3);
+
+			// Heron's formula
+			double s = (sideA + sideB + sideC) / 2;
+			double triArea = Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
+
+			if (triArea > AREA1) return true;
 		}
 		return false;
 	}
