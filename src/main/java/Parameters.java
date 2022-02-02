@@ -56,7 +56,7 @@ public class Parameters {
         return EPSILON;
     }
 
-    public double AREA1(){
+    public double getAREA1(){
         return AREA1;
     }
 
