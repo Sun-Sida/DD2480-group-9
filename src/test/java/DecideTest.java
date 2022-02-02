@@ -704,5 +704,70 @@ class DecideTest {
             }
         }
     }
+
+    @Test
+    void fuvExampel_1(){
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 7, points);
+        Boolean[][] expectedPUM = new Boolean[15][15];
+        expectedPUM[0][1] = false;
+        expectedPUM[0][2] = true;
+        expectedPUM[0][3] = false;
+        expectedPUM[0][4] = true;
+
+        expectedPUM[1][0] = false;
+        expectedPUM[1][2] = true;
+        expectedPUM[1][3] = true;
+        expectedPUM[1][4] = true;
+
+        expectedPUM[2][0] = true;
+        expectedPUM[2][1] = true;
+        expectedPUM[2][3] = true;
+        expectedPUM[2][4] = true;
+        
+        expectedPUM[3][0] = false;
+        expectedPUM[3][1] = true;
+        expectedPUM[3][2] = true;
+        expectedPUM[3][4] = true;
+
+        expectedPUM[4][0] = true;
+        expectedPUM[4][1] = true;
+        expectedPUM[4][2] = true;
+        expectedPUM[4][4] = true;
+
+        for (int i = 4; i < expectedPUM.length; i++) {
+            for (int j = 0; j < expectedPUM.length; j++) {
+                if(i == j)
+                    continue;
+                expectedPUM[i][j] = true;
+                expectedPUM[j][i] = true;
+            }
+        }
+        
+        Boolean[] puv = new Boolean[15];
+        puv[0] = true;
+        puv[1] = false;
+        puv[2] = true;
+        puv[3]  = false;
+
+        for(int i = 4; i < puv.length; i++) {
+            puv[i] = true;
+        }
+
+        Boolean[] expectedfuv = new Boolean[15];
+        expectedfuv[0] = false;
+        for(int i = 1; i < puv.length; i++) {
+            expectedfuv[i] = true;
+        }
+
+        Boolean[] fuv = dec.FUV(expectedPUM, puv);
+
+        for (int i = 0; i < expectedPUM.length; i++) {
+                    assertEquals(expectedfuv[i], fuv[i]);
+
+        }
+
+    }
 }
 
