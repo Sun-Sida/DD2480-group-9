@@ -51,7 +51,6 @@ class Decide {
 			y2 = points[1][i+1];
 			//System.out.println(x1);
 			dist = Point2D.distance(x1,y1,x2,y2);
-			System.out.println(dist);
 			if(dist > parameters.LENGTH1) return true;
 		}
 		return false;
@@ -155,7 +154,6 @@ class Decide {
 				numberOfQuads = 0;
 				for(int k = 0; k < 4; k++){
 					if(visitedQuads[k]==true) numberOfQuads++;
-					System.out.println(numberOfQuads);
 				}
 				if(numberOfQuads > parameters.getQUADS()) return true;
 			}
