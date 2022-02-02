@@ -96,6 +96,42 @@ class DecideTest {
             assertFalse(dec.LIC2());
     }
 
+	@Test
+	void LIC3TrueTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 1.9;
+		Parameters parameters = new Parameters(0, 0, 0, AREA1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+		assertTrue(dec.LIC3());
+	}
+
+	@Test
+	void LIC3FalseTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 2.1;
+		Parameters parameters = new Parameters(0, 0, 0, AREA1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+		assertFalse(dec.LIC3());
+	}
+
     @Test
 		void LIC4FalseTest(){
 			int[][] points = new int[2][2];
@@ -553,7 +589,24 @@ class DecideTest {
 		var dec = new Decide(parameters, 5, points);
 		assertFalse(dec.LIC10());
 	}
+	@Test
+	void LIC14TrueTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 100, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 1);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
 
+		var dec = new Decide(parameters, 7, points);
+		assertTrue(dec.LIC14());
+	}
+	@Test
+	void LIC14FalseTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 1, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 100);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
+
+		var dec = new Decide(parameters, 7, points);
+		assertFalse(dec.LIC14());
+	}
 	@Test
     public void pum_example1(){
         int[][] points = new int[0][0];
@@ -652,3 +705,4 @@ class DecideTest {
         }
     }
 }
+
