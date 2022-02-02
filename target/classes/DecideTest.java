@@ -2,7 +2,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.Assertions;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 //import static org.junit.jupiter.api.Assertions.assertSame;
 class DecideTest {
 
@@ -95,6 +102,42 @@ class DecideTest {
 		    var dec = new Decide(parameters, 3, points);
             assertFalse(dec.LIC2());
     }
+
+	@Test
+	void LIC3TrueTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 1.9;
+		Parameters parameters = new Parameters(0, 0, 0, AREA1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+		assertTrue(dec.LIC3());
+	}
+
+	@Test
+	void LIC3FalseTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 2.1;
+		Parameters parameters = new Parameters(0, 0, 0, AREA1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 3, points);
+		assertFalse(dec.LIC3());
+	}
 
     @Test
 		void LIC4FalseTest(){
@@ -553,9 +596,25 @@ class DecideTest {
 		var dec = new Decide(parameters, 5, points);
 		assertFalse(dec.LIC10());
 	}
-}
+	@Test
+	void LIC14TrueTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 100, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 1);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
 
-@Test
+		var dec = new Decide(parameters, 7, points);
+		assertTrue(dec.LIC14());
+	}
+	@Test
+	void LIC14FalseTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 1, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 100);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
+
+		var dec = new Decide(parameters, 7, points);
+		assertFalse(dec.LIC14());
+	}
+	@Test
     public void pum_example1(){
         int[][] points = new int[0][0];
         Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -652,3 +711,99 @@ class DecideTest {
             }
         }
     }
+
+    @Test
+    void fuvExampel_1(){
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 7, points);
+        Boolean[][] expectedPUM = new Boolean[15][15];
+        expectedPUM[0][1] = false;
+        expectedPUM[0][2] = true;
+        expectedPUM[0][3] = false;
+        expectedPUM[0][4] = true;
+
+        expectedPUM[1][0] = false;
+        expectedPUM[1][2] = true;
+        expectedPUM[1][3] = true;
+        expectedPUM[1][4] = true;
+
+        expectedPUM[2][0] = true;
+        expectedPUM[2][1] = true;
+        expectedPUM[2][3] = true;
+        expectedPUM[2][4] = true;
+        
+        expectedPUM[3][0] = false;
+        expectedPUM[3][1] = true;
+        expectedPUM[3][2] = true;
+        expectedPUM[3][4] = true;
+
+        expectedPUM[4][0] = true;
+        expectedPUM[4][1] = true;
+        expectedPUM[4][2] = true;
+        expectedPUM[4][4] = true;
+
+        for (int i = 4; i < expectedPUM.length; i++) {
+            for (int j = 0; j < expectedPUM.length; j++) {
+                if(i == j)
+                    continue;
+                expectedPUM[i][j] = true;
+                expectedPUM[j][i] = true;
+            }
+        }
+        
+        Boolean[] puv = new Boolean[15];
+        puv[0] = true;
+        puv[1] = false;
+        puv[2] = true;
+        puv[3]  = false;
+
+        for(int i = 4; i < puv.length; i++) {
+            puv[i] = true;
+        }
+
+        Boolean[] expectedfuv = new Boolean[15];
+        expectedfuv[0] = false;
+        for(int i = 1; i < puv.length; i++) {
+            expectedfuv[i] = true;
+        }
+
+        Boolean[] fuv = dec.FUV(expectedPUM, puv);
+
+        for (int i = 0; i < expectedPUM.length; i++) {
+                    assertEquals(expectedfuv[i], fuv[i]);
+
+        }
+
+    }
+
+    @Test 
+    void TrueLaunchTest() {
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        Connectors[][] lcm = new Connectors[15][15];
+        for (int i = 0; i < lcm.length; i++){
+            for (int j = 0; j <lcm[i].length; j++){
+                if(i == j) continue;
+                lcm[i][j] = Connectors.NOTUSED;
+            }
+            
+        }
+
+        Boolean[] puv = new Boolean[lcm.length];
+        for (int i = 0; i < lcm.length; i++){
+            puv[i] = false;
+        }
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+		var dec = new Decide(parameters, 0, points, lcm, puv);
+        dec.LAUNCH();
+        String expectedLaunch = "YES";
+        Assertions.assertSame(expectedLaunch, outContent.toString());
+
+        
+    }
+}
+
