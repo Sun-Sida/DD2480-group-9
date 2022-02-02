@@ -214,7 +214,7 @@ class Decide {
 
 	public boolean LIC7() {
 		int k_pts = parameters.getK_PTS();
-		if (NUMPOINTS<3 || k_pts > (NUMPOINTS-2)) {
+		if (NUMPOINTS<3 || k_pts > (NUMPOINTS-2) || k_pts < 1) {
 			return false;
 		}
 
