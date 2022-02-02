@@ -13,3 +13,15 @@ Edvard Aldor
 	<li>Set up a basic test structure </li>
 	<li>Implemented LIC5,6 and 7. </li>
 </ul>
+
+Jonathan Hedin
+
+Oscar Ingels
+
+Thea Nöteberg
+
+Sida Sun
+<ul>
+	<li>Set up a base structure of Decide </li>
+	<li>Implemented and worked on LIC0-3 </li>
+</ul>
