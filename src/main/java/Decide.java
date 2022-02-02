@@ -27,15 +27,15 @@ class Decide {
 
 
     //LIC conditions
-    public boolean LIC0(double[] X, double[] Y, int numpoints, double length1) {
+    public boolean LIC0() {
 		double x1, y1, x2, y2, dist;
-		for(int i = 1; i < numpoints; i++){
-			x1 = X[i-1];
-			y1 = Y[i-1];
-			x2 = X[i];
-			y2 = Y[i];
+		for(int i = 1; i < NUMPOINTS; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
 			dist = Point2D.distance(x1,y1,x2,y2);
-			if(dist > length1){return true;}
+			if(dist > parameters.LENGTH1){return true;}
 		}
 		return false;
 	}
