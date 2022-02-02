@@ -410,17 +410,19 @@ class DecideTest {
 		int cPts = 1; int dPts = 1;
 		double eps = 30; // is degrees, should be radians?
 
-		Parameters parameters = new Parameters(0, 0, eps, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0);
+		Parameters parameters = new Parameters(0, 0, eps, 0, 0, 0, 0, 0, 0, 0, 0, cPts, dPts, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 5, points);
 		assertTrue(dec.LIC9());
 	}
+
+		
 
 	@Test
 	void LIC9FalseTest() {
 		int[][] points = new int[2][5];
 
 		points[0][0] = -1;
-		points[1][0] = -2;
+		points[1][0] = 2;
 
 		points[0][1] = -1;
 		points[1][1] = -1;
@@ -430,7 +432,7 @@ class DecideTest {
 
 		points[0][3] = 1;
 		points[1][3] = 1;
-
+		
 		points[0][4] = 1;
 		points[1][4] = 2;
 
@@ -441,5 +443,57 @@ class DecideTest {
 		var dec = new Decide(parameters, 5, points);
 		assertFalse(dec.LIC9());
 	}
-	
+
+	void LIC10TrueTest() {
+		int[][] points = new int[2][5];
+
+		points[0][0] = -2;
+		points[1][0] = 2;
+
+		points[0][1] = -1;
+		points[1][1] = -1;
+
+		points[0][2] = 0;
+		points[1][2] = 0;
+
+		points[0][3] = 1;
+		points[1][3] = 1;
+
+		points[0][4] = 2;
+		points[1][4] = 2;	// forms a triangle with area=2
+
+		int ePts = 1; int fPts = 1;
+		double area = 1; 
+
+		Parameters parameters = new Parameters(0, 0, 0, area, 0, 0, 0, 0, 0, 0, 0, 0, 0, ePts, fPts, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 5, points);
+		assertTrue(dec.LIC10());
+	}
+
+	@Test
+	void LIC10FalseTest() {
+		int[][] points = new int[2][5];
+
+		points[0][0] = -2;
+		points[1][0] = 1;
+
+		points[0][1] = -1;
+		points[1][1] = -1;
+
+		points[0][2] = 0;
+		points[1][2] = 0;
+
+		points[0][3] = 1;
+		points[1][3] = 1;
+
+		points[0][4] = 2;
+		points[1][4] = 1;	// forms a triangle with area=2
+
+		int ePts = 1; int fPts = 1;
+		double area = 3; 
+
+		Parameters parameters = new Parameters(0, 0, 0, area, 0, 0, 0, 0, 0, 0, 0, 0, 0, ePts, fPts, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 5, points);
+		assertFalse(dec.LIC10());
+	}
 }
