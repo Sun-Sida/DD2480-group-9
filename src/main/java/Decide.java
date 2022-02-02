@@ -13,7 +13,7 @@ class Decide {
 	double[] Y = {1.31, 2.20, 1.3};
 	double LENGTH1 = 2.0;
 	double AREA1 = 6.6;
-	int PI = 180;
+	double PI = 3.1415926535;
 	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
@@ -43,27 +43,44 @@ class Decide {
 	}
 
 	public boolean LIC1() {
+		double x1, y1, x2, y2, x3, y3, radius;
+		radius = parameters.RADIUS1;
+		if (radius<0) return false;
+		if (NUMPOINTS<3) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
+			if((Point2D.distance(x1,y1,x2,y2)<radius) && (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x1,y1,x2,y2)<radius)&& (Point2D.distance(x2,y2,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x2,y2,x3,y3)<radius)&& (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+		}
 		return false;
 	}
 
 	public boolean LIC2() {
-		double x1, y1, x2, y2, x3, y3, angle;
-		for(int i = 2; i < NUMPOINTS; i++){
-			x1 = X[i-2];
-			y1 = Y[i-2];
-			x2 = X[i-1];
-			y2 = Y[i-1];
-			x3 = X[i];
-			y3 = Y[i];
+		double x1, y1, x2, y2, x3, y3, angle, EPSILON;
+		EPSILON=parameters.getEPSILON();
+		if(EPSILON<0 || EPSILON>PI) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
 			
-			angle = Math.toDegrees((Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2)));
-			
+			angle = (Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2));
 			if (angle < 0) {
-				angle += 360;
+				angle = angle + (2*PI);
 			}
-			if (angle > 180) {
-				angle = 360-angle;
+			else if (angle > PI) {
+				angle = (2*PI)-angle;
 			}
+		
 			
 			//System.out.println(angle);
 			
@@ -178,6 +195,15 @@ class Decide {
 	}
 
 	public boolean LIC7() {
+		if (NUMPOINTS<3) {
+			return false;
+		}
+		int k_pts = parameters.getK_PTS();
+		for (int i = 0; i < NUMPOINTS-1-k_pts; i++){
+			if (distance(points[0][i],points[0][i+k_pts],points[1][i], points[1][i+k_pts]) > parameters.getLENGTH1()) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -222,10 +248,77 @@ class Decide {
 	}
 
 	public boolean LIC9() {
+		/*
+		There exists at least one set of three data points separated by exactly C PTS and D PTS
+		consecutive intervening points, respectively, that form an angle such that:
+		angle < (PI − EPSILON) or angle > (PI + EPSILON).
+		The second point of the set of three points is always the vertex of the angle. If either the first
+		point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+		is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+		1 ≤ C PTS, 1 ≤ D PTS
+		C PTS + D PTS ≤ NUMPOINTS − 3
+		*/
+
+		int cPts = parameters.getC_PTS(); int dPts = parameters.getD_PTS();
+		double eps = parameters.getEPSILON();
+
+		if ((NUMPOINTS < 5) || (cPts < 1 || dPts < 1) || (cPts + dPts > (NUMPOINTS - 3))) 
+			return false;
+
+		for (int i = 0; i < (NUMPOINTS - (cPts + dPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + cPts]; int x3 = points[0][i + cPts + 2 + dPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + cPts]; int y3 = points[1][i + cPts + 2 + dPts];
+
+			if (!(x1 == x2 && y1 == y2) && !(x3 == x2 && y3 == y2)) {
+				// vectors a and b that originate from point 2
+				int ax = x1-x2; int ay = y1-y2; int bx = x3-x2; int by = y3-y2;
+
+				// angle between vector a and b
+				double angle = Math.acos(
+					(ax * bx + ay * by) / 
+						(
+							Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2)) * 
+							Math.sqrt(Math.pow(bx, 2) + Math.pow(by, 2))
+						)
+				);
+
+				if (angle < (PI - eps) || angle > (PI + eps)) return true;
+			}
+		}
 		return false;
 	}
 
 	public boolean LIC10() {
+	/*
+	There exists at least one set of three data points separated by exactly E PTS and F PTS con-
+	secutive intervening points, respectively, that are the vertices of a triangle with area greater
+	than AREA1. The condition is not met when NUMPOINTS < 5.
+	1 ≤ E PTS, 1 ≤ F PTS
+	E PTS + F PTS ≤ NUMPOINTS − 3
+	*/
+
+		int ePts = parameters.getE_PTS(); int fPts = parameters.getF_PTS();
+		
+		if ((NUMPOINTS < 5) || (ePts < 1 || fPts < 1) || (ePts + fPts > (NUMPOINTS - 3))) 
+			return false;
+
+		double area = parameters.getAREA1();
+
+		for (int i = 0; i < (NUMPOINTS - (ePts + fPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + ePts]; int x3 = points[0][i + ePts + 2 + fPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + ePts]; int y3 = points[1][i + ePts + 2 + fPts];
+
+			double sideA = Point2D.distance(x1, y1, x2, y2);
+			double sideB = Point2D.distance(x1, y1, x3, y3);
+			double sideC = Point2D.distance(x2, y2, x3, y3);
+
+			// Heron's formula
+			double s = (sideA + sideB + sideC) / 2;
+			double triArea = Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC));
+
+			if (triArea > area) return true;
+		}
+
 		return false;
 	}
 
@@ -268,7 +361,37 @@ class Decide {
 	}
 
 	public boolean LIC13() {
-		return false;
+		if(NUMPOINTS < 5){
+			return false;
+		}
+		boolean cond1 = false;
+		boolean cond2 = false;
+		double rad_1 = parameters.getRADIUS1();
+		double rad_2 = parameters.getRADIUS2();
+		int A_PTS = parameters.getA_PTS();
+		int B_PTS = parameters.getB_PTS();
+		for (int i = 0; i < (NUMPOINTS - (A_PTS + B_PTS + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + A_PTS]; int x3 = points[0][i + A_PTS + 2 + B_PTS];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + A_PTS]; int y3 = points[1][i + A_PTS + 2 + B_PTS];
+
+			//Find Centroid
+			double centroid_x = (x1+x2+x3)/3.0;
+			double centroid_y = (y1+y2+y3)/3.0;
+			double dist_1 = Math.abs(Point2D.distance(x1, y1, centroid_x, centroid_y));
+			double dist_2 = Math.abs(Point2D.distance(x2, y2, centroid_x, centroid_y));
+			double dist_3 = Math.abs(Point2D.distance(x3, y3, centroid_x, centroid_y));
+			if(dist_1 > rad_1 || dist_2 > rad_1 || dist_3 > rad_1){
+				cond1 = true;
+			}
+			if(dist_1 <= rad_2 && dist_2 <= rad_2 && dist_3 <= rad_2){
+				cond2 = true;
+			}
+			if((cond1) && (cond2)){
+				return true;
+			}
+
+		}
+		return cond1 && cond2;
 	}
 
 	public boolean LIC14() {
