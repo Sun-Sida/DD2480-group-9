@@ -15,6 +15,11 @@ Edvard Aldor
 </ul>
 
 Jonathan Hedin
+<ul>
+    <li> Implemented LIC8,9 and 10 and tests for these.</li>
+    <li> Corrected issues.</li>
+    <li> Verified tests and merged pull requests.</li>
+</ul>
 
 Oscar Ingels
 
