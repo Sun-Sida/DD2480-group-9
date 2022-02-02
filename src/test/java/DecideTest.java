@@ -34,9 +34,8 @@ class DecideTest {
         //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
     }
-
-    @Test
-    void LIC1TrueTest(){
+  
+      void LIC1TrueTest(){
         int[][] points = new int[2][3];
             points[1][0] = 1;
             points[0][0] = 3;
@@ -65,6 +64,34 @@ class DecideTest {
         assertFalse(dec.LIC1());
         //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
+    }
+
+    @Test
+    void LIC2TrueTest(){
+        int[][] points = new int[2][3];
+            points[0][0] = 1;
+			points[1][0] = 1;
+			points[0][1] = 3;
+			points[1][1] = 1;
+            points[0][2] = 3;
+			points[1][2] = 2;
+            Parameters parameters = new Parameters(10.0, 0, 3.14/2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		    var dec = new Decide(parameters, 3, points);
+            assertTrue(dec.LIC2());
+    }
+
+    @Test
+    void LIC2FalseTest(){
+        int[][] points = new int[2][3];
+            points[0][0] = 1;
+			points[1][0] = 1;
+			points[0][1] = 0;
+			points[1][1] = 0;
+            points[0][2] = -1;
+			points[1][2] = 1;
+            Parameters parameters = new Parameters(10.0, 0, 3.20/2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		    var dec = new Decide(parameters, 3, points);
+            assertFalse(dec.LIC2());
     }
 
     @Test
