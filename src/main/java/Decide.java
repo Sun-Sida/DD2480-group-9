@@ -13,7 +13,7 @@ class Decide {
 	double[] Y = {1.31, 2.20, 1.3};
 	double LENGTH1 = 2.0;
 	double AREA1 = 6.6;
-	int PI = 180;
+	double PI = 3.1415926535;
 	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
@@ -43,27 +43,44 @@ class Decide {
 	}
 
 	public boolean LIC1() {
+		double x1, y1, x2, y2, x3, y3, radius;
+		radius = parameters.RADIUS1;
+		if (radius<0) return false;
+		if (NUMPOINTS<3) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
+			if((Point2D.distance(x1,y1,x2,y2)<radius) && (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x1,y1,x2,y2)<radius)&& (Point2D.distance(x2,y2,x3,y3)<radius)) return true;
+			else if((Point2D.distance(x2,y2,x3,y3)<radius)&& (Point2D.distance(x1,y1,x3,y3)<radius)) return true;
+		}
 		return false;
 	}
 
 	public boolean LIC2() {
-		double x1, y1, x2, y2, x3, y3, angle;
-		for(int i = 2; i < NUMPOINTS; i++){
-			x1 = X[i-2];
-			y1 = Y[i-2];
-			x2 = X[i-1];
-			y2 = Y[i-1];
-			x3 = X[i];
-			y3 = Y[i];
+		double x1, y1, x2, y2, x3, y3, angle, EPSILON;
+		EPSILON=parameters.getEPSILON();
+		if(EPSILON<0 || EPSILON>PI) return false;
+		for(int i = 0; i < NUMPOINTS-2; i++){
+			x1 = points[0][i];
+			y1 = points[1][i];
+			x2 = points[0][i+1];
+			y2 = points[1][i+1];
+			x3 = points[0][i+2];
+			y3 = points[1][i+2];
 			
-			angle = Math.toDegrees((Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2)));
-			
+			angle = (Math.atan2(y1-y2, x1-x2) - Math.atan2(y3-y2, x3-x2));
 			if (angle < 0) {
-				angle += 360;
+				angle = angle + (2*PI);
 			}
-			if (angle > 180) {
-				angle = 360-angle;
+			else if (angle > PI) {
+				angle = (2*PI)-angle;
 			}
+		
 			
 			//System.out.println(angle);
 			
@@ -222,6 +239,43 @@ class Decide {
 	}
 
 	public boolean LIC9() {
+		/*
+		There exists at least one set of three data points separated by exactly C PTS and D PTS
+		consecutive intervening points, respectively, that form an angle such that:
+		angle < (PI − EPSILON) or angle > (PI + EPSILON).
+		The second point of the set of three points is always the vertex of the angle. If either the first
+		point or the last point (or both) coincide with the vertex, the angle is undefined and the LIC
+		is not satisfied by those three points. When NUMPOINTS < 5, the condition is not met.
+		1 ≤ C PTS, 1 ≤ D PTS
+		C PTS + D PTS ≤ NUMPOINTS − 3
+		*/
+
+		int cPts = parameters.getC_PTS(); int dPts = parameters.getD_PTS();
+		double eps = parameters.getEPSILON();
+
+		if ((NUMPOINTS < 5) || (cPts < 1 || dPts < 1) || (cPts + dPts > (NUMPOINTS - 3))) 
+			return false;
+
+		for (int i = 0; i < (NUMPOINTS - (cPts + dPts + 2)); i++) {
+			int x1 = points[0][i]; int x2 = points[0][i + 1 + cPts]; int x3 = points[0][i + cPts + 2 + dPts];
+			int y1 = points[1][i]; int y2 = points[1][i + 1 + cPts]; int y3 = points[1][i + cPts + 2 + dPts];
+
+			if (!(x1 == x2 && y1 == y2) && !(x3 == x2 && y3 == y2)) {
+				// vectors a and b that originate from point 2
+				int ax = x1-x2; int ay = y1-y2; int bx = x3-x2; int by = y3-y2;
+
+				// angle between vector a and b
+				double angle = Math.toDegrees(Math.acos(
+					(ax * bx + ay * by) / 
+						(
+							Math.sqrt(Math.pow(ax, 2) + Math.pow(ay, 2)) * 
+							Math.sqrt(Math.pow(bx, 2) + Math.pow(by, 2))
+						)
+				));
+
+				if (angle < (PI - eps) || angle > (PI + eps)) return true;
+			}
+		}
 		return false;
 	}
 
