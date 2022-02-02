@@ -232,11 +232,6 @@ class Decide {
 	}
 
 	public boolean LIC13() {
-		//A and B pts between pt 1, 2 and 3
-
-		//if distance from centroid to any point is larger than radius it cannot be contained
-		//centroid formula is (
-		//vice versa
 		if(NUMPOINTS < 5){
 			return false;
 		}
@@ -253,21 +248,18 @@ class Decide {
 			//Find Centroid
 			double centroid_x = (x1+x2+x3)/3.0;
 			double centroid_y = (y1+y2+y3)/3.0;
-			double dist_1 = Point2D.distance(x1, y1, centroid_x, centroid_y);
-			double dist_2 = Point2D.distance(x2, y2, centroid_x, centroid_y);
-			double dist_3 = Point2D.distance(x3, y3, centroid_x, centroid_y);
+			double dist_1 = Math.abs(Point2D.distance(x1, y1, centroid_x, centroid_y));
+			double dist_2 = Math.abs(Point2D.distance(x2, y2, centroid_x, centroid_y));
+			double dist_3 = Math.abs(Point2D.distance(x3, y3, centroid_x, centroid_y));
 			if(dist_1 > rad_1 && dist_2 > rad_1 && dist_3 > rad_1){
 				cond1 = true;
 			}
 			if(dist_1 <= rad_2 && dist_2 <= rad_2 && dist_3 <= rad_2){
 				cond2 = true;
 			}
-
-			/*
-			If the longest side of the triangle is larger than the diameter of the circle,
-			then no circle that spanns the three points is possible. In all other cases there
-			will be a circle that can contain all points.
-			*/
+			if((cond1) && (cond2)){
+				return true;
+			}
 
 		}
 		return cond1 && cond2;
