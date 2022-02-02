@@ -272,6 +272,9 @@ class Decide {
 	}
 
 	public boolean LIC14() {
+		if(NUMPOINTS < 5){
+			return false;
+		}
 		boolean cond1 = false;
 		boolean cond2 = false;
 		int E_PTS = parameters.getE_PTS();
