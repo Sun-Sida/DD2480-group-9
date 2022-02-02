@@ -165,7 +165,6 @@ class Decide {
 	}
 
 	public boolean LIC5() {
-		//System.out.println(points[0][1]);
 
 		for(int i = 0; i < (points.length - 1); i++){
 			if ((points[0][i] > points[0][i+1])) {
@@ -214,10 +213,11 @@ class Decide {
 	}
 
 	public boolean LIC7() {
-		if (NUMPOINTS<3) {
+		int k_pts = parameters.getK_PTS();
+		if (NUMPOINTS<3 || k_pts > (NUMPOINTS-2) || k_pts < 1) {
 			return false;
 		}
-		int k_pts = parameters.getK_PTS();
+
 		for (int i = 0; i < NUMPOINTS-1-k_pts; i++){
 			if (distance(points[0][i],points[0][i+k_pts],points[1][i], points[1][i+k_pts]) > parameters.getLENGTH1()) {
 				return true;
