@@ -127,7 +127,7 @@ class Decide {
 	}
 
 	public boolean LIC5() {
-		//System.out.println(points[3][0]);
+		//System.out.println(points[0][1]);
 
 		for(int i = 0; i < (points.length - 1); i++){
 			if ((points[i][0] > points[i+1][0])) {
@@ -143,11 +143,12 @@ class Decide {
 
 		for(int i = 0; i < NUMPOINTS - parameters.getN_PTS() +1; i++){
 			int end = i + parameters.getN_PTS() -1;
-			if (points[i][0] == points[end][0] && points[0][i] == points[0][end]){
+			if (points[i][0] == points[end][0] && points[i][1] == points[end][1]){
 				//When there is no line: Euclidean distance is enough.
 				for (int j = i+1; j<end; j++){
 					//Calculate the distance to a point (using Euclidean distance)
-					if (distance(points[i][0],points[end][0], points[0][i], points[0][end]) > parameters.getDIST()) {
+					if (distance(points[i][0],points[end][0], points[i][1], points[end][1]) > parameters.getDIST()) {
+						System.out.println("Kom till punkt o punkt");
 						return true;
 					}
 				}
@@ -155,16 +156,19 @@ class Decide {
 				//Line equation: ax+by+c = 0
 				int a,b,c;
 				int diffX = difference(points[i][0],points[end][0]);
-				int diffY = difference(points[0][i], points[0][end]);
+				int diffY = difference(points[i][1], points[end][1]);
 				int k = diffY/diffX;
-				int m = points[0][i] - k * points[i][0];
+				int m = points[i][1] - k * points[i][0];
 				a = -k;
 				b = 1;
 				c = -m;
 				for (int j = i+1; j<end; j++){
 					//Distance between point and line from wiki: abs(line equation) / sqrt(a² + b²)
-					int distance_point_and_line = (int) (Math.abs(a*points[i][0] + b*points[0][i]+ c) / Math.sqrt(Math.pow(2, a) + Math.pow(2,b)));
-					if (distance_point_and_line > parameters.getDIST()) return true;
+					int distance_point_and_line = (int) (Math.abs(a*points[i][0] + b*points[i][1]+ c) / Math.sqrt(Math.pow(2, a) + Math.pow(2,b)));
+					if (distance_point_and_line > parameters.getDIST()) {
+						System.out.println("Kom till linje o punkt");
+						return true;
+					}
 				}
 			}
 

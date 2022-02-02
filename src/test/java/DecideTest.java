@@ -81,5 +81,31 @@ class DecideTest {
             var dec = new Decide(parameters, 4, points);
             assertFalse(dec.LIC5());
         }
+    @Test
+    void LIC6FalseTest_ToLargeDist(){
+        //Will test the euclidean distance. All y:s are zero
+        int[][] points = new int[4][2];
+        points[0][0] = 1;
+        points[1][0] = 2;
+        points[2][0] = 3;
+        points[3][0] = 4;
+        Parameters parameters = new Parameters(0.0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        var dec = new Decide(parameters, 4, points);
+        assertFalse(dec.LIC6());
+    }
+    @Test
+    void LIC6TrueTest_SmallerDist(){
+        //Will test the euclidean distance. ALl y:s are zero
+        int[][] points = new int[5][2];
+        int NUMPOINTS = 5;
+        points[0][0] = 0;
+        points[1][0] = 1;
+        points[2][0] = 1;
+        points[3][0] = 1;
+        points[4][0] = 3;
+        Parameters parameters = new Parameters(0.0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        var dec = new Decide(parameters, NUMPOINTS, points);
+        assertTrue(dec.LIC6());
+    }
 
 }
