@@ -251,7 +251,7 @@ class Decide {
 			double dist_1 = Math.abs(Point2D.distance(x1, y1, centroid_x, centroid_y));
 			double dist_2 = Math.abs(Point2D.distance(x2, y2, centroid_x, centroid_y));
 			double dist_3 = Math.abs(Point2D.distance(x3, y3, centroid_x, centroid_y));
-			if(dist_1 > rad_1 && dist_2 > rad_1 && dist_3 > rad_1){
+			if(dist_1 > rad_1 || dist_2 > rad_1 || dist_3 > rad_1){
 				cond1 = true;
 			}
 			if(dist_1 <= rad_2 && dist_2 <= rad_2 && dist_3 <= rad_2){
