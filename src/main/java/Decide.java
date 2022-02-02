@@ -405,7 +405,7 @@ class Decide {
 		boolean cond2 = false;
 		int E_PTS = parameters.getE_PTS();
 		int F_PTS = parameters.getF_PTS();
-		double area_1 = parameters.AREA1();
+		double area_1 = parameters.getAREA1();
 		double area_2 = parameters.getAREA2();
 		for (int i = 0; i < (NUMPOINTS - (E_PTS + F_PTS + 2)); i++) {
 			int x1 = points[0][i]; int x2 = points[0][i + 1 + E_PTS]; int x3 = points[0][i + E_PTS + 2 + F_PTS];
