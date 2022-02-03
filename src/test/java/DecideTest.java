@@ -2,7 +2,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.jupiter.api.Assertions;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 //import static org.junit.jupiter.api.Assertions.assertSame;
 class DecideTest {
 
@@ -704,5 +711,167 @@ class DecideTest {
             }
         }
     }
+
+    @Test
+    void fuvExampel_1(){
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+		var dec = new Decide(parameters, 7, points);
+        Boolean[][] expectedPUM = new Boolean[15][15];
+        expectedPUM[0][1] = false;
+        expectedPUM[0][2] = true;
+        expectedPUM[0][3] = false;
+        expectedPUM[0][4] = true;
+
+        expectedPUM[1][0] = false;
+        expectedPUM[1][2] = true;
+        expectedPUM[1][3] = true;
+        expectedPUM[1][4] = true;
+
+        expectedPUM[2][0] = true;
+        expectedPUM[2][1] = true;
+        expectedPUM[2][3] = true;
+        expectedPUM[2][4] = true;
+        
+        expectedPUM[3][0] = false;
+        expectedPUM[3][1] = true;
+        expectedPUM[3][2] = true;
+        expectedPUM[3][4] = true;
+
+        expectedPUM[4][0] = true;
+        expectedPUM[4][1] = true;
+        expectedPUM[4][2] = true;
+        expectedPUM[4][4] = true;
+
+        for (int i = 4; i < expectedPUM.length; i++) {
+            for (int j = 0; j < expectedPUM.length; j++) {
+                if(i == j)
+                    continue;
+                expectedPUM[i][j] = true;
+                expectedPUM[j][i] = true;
+            }
+        }
+        
+        Boolean[] puv = new Boolean[15];
+        puv[0] = true;
+        puv[1] = false;
+        puv[2] = true;
+        puv[3]  = false;
+
+        for(int i = 4; i < puv.length; i++) {
+            puv[i] = true;
+        }
+
+        Boolean[] expectedfuv = new Boolean[15];
+        expectedfuv[0] = false;
+        for(int i = 1; i < puv.length; i++) {
+            expectedfuv[i] = true;
+        }
+
+        Boolean[] fuv = dec.FUV(expectedPUM, puv);
+
+        for (int i = 0; i < expectedPUM.length; i++) {
+                    assertEquals(expectedfuv[i], fuv[i]);
+
+        }
+
+    }
+
+    @Test 
+    void TrueLaunchTest() {
+        int[][] points = new int[0][0];
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        Connectors[][] lcm = new Connectors[15][15];
+        for (int i = 0; i < lcm.length; i++){
+            for (int j = 0; j <lcm[i].length; j++){
+                if(i == j) continue;
+                lcm[i][j] = Connectors.NOTUSED;
+            }
+            
+        }
+
+        Boolean[] puv = new Boolean[lcm.length];
+        for (int i = 0; i < lcm.length; i++){
+            puv[i] = false;
+        }
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+		var dec = new Decide(parameters, 0, points, lcm, puv);
+        dec.LAUNCH();
+        String expectedLaunch = "YES";
+		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
+        
+    }
+
+	@Test
+	void FalseLaunchTest() {
+		int[][] points = new int[2][3];
+		points[0][0] = 0;
+		points[1][0] = 0;
+
+		points[0][1] = 0;
+		points[1][1] = 2;
+
+		points[0][2] = 2;
+		points[1][2] = 0;
+
+		double AREA1 = 1;
+		double RADIUS1 = 1;
+		double EPSILON = 0.1;
+
+		Parameters parameters = new Parameters(0, RADIUS1, EPSILON, AREA1, 4, 4, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 0, 100);
+		
+		Connectors[][] lcm = new Connectors[15][15];
+        lcm[0][0] = Connectors.ANDD;
+        lcm[0][1] = Connectors.ANDD;
+        lcm[0][2] = Connectors.ORR;
+        lcm[0][3] = Connectors.ANDD;
+
+        lcm[1][0] = Connectors.ANDD;
+        lcm[1][1] = Connectors.ANDD;
+        lcm[1][2] = Connectors.ORR;
+        lcm[1][3] = Connectors.ORR;
+
+        lcm[2][0] = Connectors.ORR;
+        lcm[2][1] = Connectors.ORR;
+        lcm[2][2] = Connectors.ANDD;
+        lcm[2][3] = Connectors.ANDD;
+
+        lcm[3][0] = Connectors.ANDD;
+        lcm[3][1] = Connectors.ORR;
+        lcm[3][2] = Connectors.ANDD;
+        lcm[3][3] = Connectors.ANDD;
+
+        for (int i = 4; i < lcm.length; i++) {
+            for (int j = 0; j < lcm.length; j++) {
+                lcm[i][j] = Connectors.NOTUSED;
+                lcm[j][i] = Connectors.NOTUSED;
+            }
+        }
+
+		Boolean[] puv = new Boolean[15];
+        puv[0] = true;
+        puv[1] = false;
+        puv[2] = true;
+        puv[3]  = false;
+
+        for(int i = 4; i < puv.length; i++) {
+            puv[i] = true;
+        }
+		
+		
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+		
+		var dec = new Decide(parameters, 3, points, lcm, puv);
+        
+		dec.LAUNCH();
+        String expectedLaunch = "NO";
+
+		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
+
+	}
 }
 

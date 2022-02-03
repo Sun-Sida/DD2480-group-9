@@ -12,21 +12,29 @@ class Decide {
 	
 	
 	//Global variables
-	int NUMPOINTS = 3;
-	double[] X = {0.23, 6.51, 0.15};
-	double[] Y = {1.31, 2.20, 1.3};
-	double LENGTH1 = 2.0;
+	int NUMPOINTS;
 	double PI = 3.1415926535;
-	int EPSILON = 90;
 	Parameters parameters;
 	int[][] points;
 	Boolean[] cmv;
 	Connectors[][] lcm;
+	Boolean[] puv;
 
 	public Decide(Parameters parameters, int NUMPOINTS, int[][] points){
 		this.parameters = parameters;
 		this.NUMPOINTS = NUMPOINTS;
 		this.points = points;
+
+		cmv = new Boolean[15];
+		
+	}
+
+	public Decide(Parameters parameters, int NUMPOINTS, int[][] points, Connectors[][]lcm, Boolean[] puv){
+		this.parameters = parameters;
+		this.NUMPOINTS = NUMPOINTS;
+		this.points = points;
+		this.lcm = lcm;
+		this.puv = puv;
 
 		cmv = new Boolean[15];
 		
@@ -43,7 +51,6 @@ class Decide {
 			y2 = points[1][i+1];
 			//System.out.println(x1);
 			dist = Point2D.distance(x1,y1,x2,y2);
-			System.out.println(dist);
 			if(dist > parameters.LENGTH1) return true;
 		}
 		return false;
@@ -147,7 +154,6 @@ class Decide {
 				numberOfQuads = 0;
 				for(int k = 0; k < 4; k++){
 					if(visitedQuads[k]==true) numberOfQuads++;
-					System.out.println(numberOfQuads);
 				}
 				if(numberOfQuads > parameters.getQUADS()) return true;
 			}
@@ -157,7 +163,6 @@ class Decide {
 	}
 
 	public boolean LIC5() {
-		//System.out.println(points[0][1]);
 
 		for(int i = 0; i < (points.length - 1); i++){
 			if ((points[0][i] > points[0][i+1])) {
@@ -206,10 +211,11 @@ class Decide {
 	}
 
 	public boolean LIC7() {
-		if (NUMPOINTS<3) {
+		int k_pts = parameters.getK_PTS();
+		if (NUMPOINTS<3 || k_pts > (NUMPOINTS-2) || k_pts < 1) {
 			return false;
 		}
-		int k_pts = parameters.getK_PTS();
+
 		for (int i = 0; i < NUMPOINTS-1-k_pts; i++){
 			if (distance(points[0][i],points[0][i+k_pts],points[1][i], points[1][i+k_pts]) > parameters.getLENGTH1()) {
 				return true;
@@ -494,10 +500,42 @@ class Decide {
 	}
 	
 	//Final unlock vector
-	public int[] FUV() {
+	public Boolean[] FUV(Boolean[][]pum, Boolean[]puv) {
 		//computes the FUV vector from the PMV and the PUV
-		int[] vector = {0};
-        return vector;
+		Boolean[] fuv = new Boolean[15];
+		for (int i = 0; i < 15; i++) {			
+				if (puv[i] == true){
+					for (int j = 0; j < 15; j++){
+						if(i == j) continue;
+						if(pum[i][j] == false){
+							fuv[i] = false;
+							break;
+						}
+						fuv[i] = true;
+					}					
+				}
+				if (puv[i] == false){
+					fuv[i] = true;
+				}
+		}
+        return fuv;
+	}
+
+	public void LAUNCH(){
+		Boolean[] cmv = CMV();
+		Boolean[][] pum = PMV(cmv, lcm);
+		Boolean[] fuv = FUV(pum, puv);
+		boolean temp = true;
+		for (int i=0; i < fuv.length; i++){
+			if(fuv[i] == false){
+				temp = false;
+			}
+		}
+		if(temp){
+			System.out.println("YES");
+		}else{
+			System.out.println("NO");
+		}
 	}
 	
     
