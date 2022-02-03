@@ -29,7 +29,13 @@ Oscar Ingels
 </ul>
 
 Thea Nöteberg
-
+<ul>
+    	<li> Implemented LIC 4, 11 and their test cases.</li>
+	<li> Implemented unit tests for LIC 0-1 </li>
+    	<li> Merged pull request.</li>
+    	<li> Created parameters class</li>
+	<li> Implemented CMV, PMV, PUV and their unit tests</li>
+</ul>
 Sida Sun
 <ul>
 	<li>Set up a base structure of Decide </li>
