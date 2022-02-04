@@ -134,6 +134,10 @@ class DecideTest {
 	}
 	@Test
 	void LIC12TrueTest(){
+		        /*
+    		Input: Parameters: Length1=1, K_PTS=2, length2 = 7, Number of inputs:6. X-coordinates:2,2,5,7,8,11 Y-coords:2,5,6,4,8,4.
+    		Output: True
+    	*/
 		Parameters parameters = new Parameters(4.0, 0, 0, 0, 0, 0,
 				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 7,0, 0);
 		int[][] points = {{2, 2, 5, 7, 8, 11}, {2, 5, 6, 4, 8, 4}};
@@ -142,6 +146,10 @@ class DecideTest {
 	}
 	@Test
 	void LIC12FalseTest(){
+				        /*
+    		Input: Parameters: Length1=40, K_PTS=2, length2 = 7, Number of inputs:6. X-coordinates:2,2,5,7,8,11 Y-coords:2,5,6,4,8,4.
+    		Output: False
+    	*/
 		Parameters parameters = new Parameters(40.0, 0, 0, 0, 0, 0,
 				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 7,0, 0);
 		int[][] points = {{2, 2, 5, 7, 8, 11}, {2, 5, 6, 4, 8, 4}};
