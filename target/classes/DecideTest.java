@@ -601,6 +601,7 @@ class DecideTest {
 		Parameters parameters = new Parameters(40.0, 0, 0, 100, 0, 0,
 				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 1);
 		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
+<<<<<<< HEAD
 
 		var dec = new Decide(parameters, 7, points);
 		assertTrue(dec.LIC14());
@@ -612,6 +613,19 @@ class DecideTest {
 		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
 
 		var dec = new Decide(parameters, 7, points);
+=======
+
+		var dec = new Decide(parameters, 7, points);
+		assertTrue(dec.LIC14());
+	}
+	@Test
+	void LIC14FalseTest(){
+		Parameters parameters = new Parameters(40.0, 0, 0, 1, 0, 0,
+				0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0,1, 100);
+		int[][] points = {{3, 4, 5, 6, 6, 8, 8}, {2, 4, 2, 3, 5, 3, 5}};
+
+		var dec = new Decide(parameters, 7, points);
+>>>>>>> d793a8eb959f748f19ea35e16fd401c45119b2c7
 		assertFalse(dec.LIC14());
 	}
 	@Test
@@ -801,6 +815,7 @@ class DecideTest {
 		var dec = new Decide(parameters, 0, points, lcm, puv);
         dec.LAUNCH();
         String expectedLaunch = "YES";
+<<<<<<< HEAD
 		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
         
     }
@@ -873,5 +888,11 @@ class DecideTest {
 		Assertions.assertEquals(expectedLaunch, outContent.toString().strip());
 
 	}
+=======
+        Assertions.assertSame(expectedLaunch, outContent.toString());
+
+        
+    }
+>>>>>>> d793a8eb959f748f19ea35e16fd401c45119b2c7
 }
 
