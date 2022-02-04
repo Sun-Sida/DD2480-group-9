@@ -546,8 +546,8 @@ class Decide {
 	}
 
 	public static int distance(int x1, int x2, int y1, int y2){
-		int diffX = difference(x2,x1);
-		int diffY = difference(y2,y1);
+		int diffX = difference(x1,x2);
+		int diffY = difference(y1,y2);
 		return (int) Math.sqrt(diffX*diffX + diffY*diffY);
 	}
 

@@ -42,6 +42,7 @@ class DecideTest {
 		var dec = new Decide(parameters, 2, points);
         assertFalse(dec.LIC0());
 
+
     }
   
 	//With this input the expected output is true
@@ -195,6 +196,10 @@ class DecideTest {
 		}
         @Test
         void LIC5TrueTest(){
+    		/*
+    		Input: All Parameters:0, Number of inputs:4. X-coordinates:6,2,4,5. Y-coords:0,0,0,0.
+    		Output: True
+    		 */
             int num_points = 4;
             int[][] points = new int[2][num_points];
             points[0][0] = 6;
@@ -207,6 +212,10 @@ class DecideTest {
         }
         @Test
         void LIC5FalseTest(){
+    		/*
+    		Input: All Parameters:0, Number of inputs:4. X-coordinates:1,2,4,5. Y-coords:0,0,0,0.
+    		Output: False
+    		 */
             int num_points = 4;
             int[][] points = new int[2][num_points];
             points[0][0] = 1;
@@ -219,7 +228,10 @@ class DecideTest {
         }
     @Test
     void LIC6FalseTest_ToLargeDist(){
-        //Will test the euclidean distance. All y:s are zero
+        	/*
+    		Input: Parameters: Dist=2, N_PTS=2, Number of inputs:4. X-coordinates:1,2,4,5. Y-coords:0,0,0,0.
+    		Output: False
+    		 */
         int num_points = 4;
         int[][] points = new int[2][num_points];
         points[0][0] = 1;
@@ -232,24 +244,27 @@ class DecideTest {
     }
     @Test
     void LIC6TrueTest_SmallerDist(){
-        //Will test the euclidean distance. ALl y:s are zero
-        int num_points = 8;
+        /*
+    		Input: Parameters: Dist=1, N_PTS=4, Number of inputs:5. X-coordinates:1,2,3,4,2 Y-coords:0,...,0.
+    		Output: True
+    	*/
+        int num_points = 5;
         int[][] points = new int[2][num_points];
         points[0][0] = 1;
-        points[0][1] = 4;
-        points[0][2] = 7;
-        points[0][3] = 11;
-        points[0][4] = 14;
-        points[0][4] = 1;
-        points[0][4] = 1;
-        points[0][4] = 1;
-        Parameters parameters = new Parameters(0.0, 0, 0, 0, 0, 0, 1, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        points[0][1] = 2;
+        points[0][2] = 3;
+        points[0][3] = 4;
+        points[0][4] = 2;
+        Parameters parameters = new Parameters(0.0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         var dec = new Decide(parameters, num_points, points);
         assertTrue(dec.LIC6());
     }
     @Test
     void LIC6TrueTest_Line(){
-        //Will test the euclidean distance. ALl y:s are zero
+    	/*
+    		Input: Parameters: Dist=0, N_PTS=4, Number of inputs:5. X-coordinates:1,2,3,4,2 Y-coords:1,1,1,2,2
+    		Output: True
+    	*/
         int num_points = 5;
         int[][] points = new int[2][num_points];
         points[0][0] = 2;
@@ -268,7 +283,10 @@ class DecideTest {
     }
 	@Test
 	void LIC7TrueTest(){
-		//Will test the euclidean distance. ALl y:s are zero
+		/*
+		Input: Parameters: LENGTH1=1.0, K_PTS=2, Number of inputs:5. X-coordinates:2,6,4,7,11 Y-coords:4,3,5,11,2
+		Output: True
+		*/
 		int num_points = 5;
 		int[][] points = new int[2][num_points];
 		points[0][0] = 2;
@@ -287,7 +305,10 @@ class DecideTest {
 	}
 	@Test
 	void LIC7FalseTest(){
-		//Will test the euclidean distance. ALl y:s are zero
+		/*
+		Input: Parameters: LENGTH1=100.0, K_PTS=2, Number of inputs:5. X-coordinates:2,6,4,7,11 Y-coords:4,3,5,11,2
+		Output: True
+		*/
 		int num_points = 5;
 		int[][] points = new int[2][num_points];
 		points[0][0] = 2;
