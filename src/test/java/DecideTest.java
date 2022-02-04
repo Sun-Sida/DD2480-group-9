@@ -41,7 +41,6 @@ class DecideTest {
         Parameters parameters = new Parameters(10.0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 2, points);
         assertFalse(dec.LIC0());
-        //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
     }
   
