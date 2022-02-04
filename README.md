@@ -67,7 +67,6 @@ Perhaps our agreement on some formalities could have been enforced, such as how 
 
 In summary, there are some principles and foundations established which are in use - but these could be further explored. There are things that could be further developed within the team, but we are on our way to develop a functioning working environment. Some of the kinks that became apparent when doing this assigment will be discussed and hopefully worked on when starting on the second assignment in order for us to work well together.
 
-
 #### Principles Established
 - [x] Principles and constraints are committed to by the team.
 - [ ] Principles and constraints are agreed to by the stakeholders.
