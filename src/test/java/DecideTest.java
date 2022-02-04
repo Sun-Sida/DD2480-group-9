@@ -408,6 +408,7 @@ class DecideTest {
 
 	@Test
 	void LIC8TrueTest() {
+		// Input is expected to succeed: radius of circle too small to contain points.
 		int[][] points = new int[2][8];
 		points[0][0] = 10;
 		points[1][0] = 10;
@@ -433,18 +434,18 @@ class DecideTest {
 		points[0][7] = 30;
 		points[1][7] = 10;
 
-		double rad = 30.0;
+		double rad = 5.0;
 		int aPts = 3;
 		int bPts = 2;
 
 		Parameters parameters = new Parameters(0, rad, 0, 0, 0, 0, 0, 0, 0, aPts, bPts, 0, 0, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 8, points);
-		assertFalse(dec.LIC8());
+		assertTrue(dec.LIC8());
 	}
 
 	@Test
 	void LIC8FalseTest1() {
-
+		// Input is expected to fail: radius of circle big enough to contain all points.
 		int[][] points = new int[2][8];
 		points[0][0] = 10;
 		points[1][0] = 10;
@@ -481,7 +482,7 @@ class DecideTest {
 
 	@Test
 	void LIC8FalseTest2() {
-		// Should fail due to too few points.
+		// Input is expected to fail due to too few points.
 		int[][] points = new int[2][7];
 		points[0][0] = 10;
 		points[1][0] = 10;
@@ -541,6 +542,7 @@ class DecideTest {
 
 	@Test
 	void LIC9TrueTest() {
+		// Input is expected to succeed: small EPSILON, angle between vectors small enough.
 		int[][] points = new int[2][5];
 
 		points[0][0] = -2;
@@ -570,6 +572,7 @@ class DecideTest {
 
 	@Test
 	void LIC9FalseTest() {
+		// Input is expected to fail: Epsilon big enough, angle is too large.
 		int[][] points = new int[2][5];
 
 		points[0][0] = -1;
@@ -596,6 +599,7 @@ class DecideTest {
 	}
 
 	void LIC10TrueTest() {
+		// Input is expected to succeed: AREA1 smaller than triangle.
 		int[][] points = new int[2][5];
 
 		points[0][0] = -2;
@@ -623,6 +627,7 @@ class DecideTest {
 
 	@Test
 	void LIC10FalseTest() {
+		// Input expected to fail: AREA1 bigger than triangle.
 		int[][] points = new int[2][5];
 
 		points[0][0] = -2;
