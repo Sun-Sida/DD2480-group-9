@@ -146,6 +146,7 @@ class DecideTest {
 		assertFalse(dec.LIC3());
 	}
 
+	//With this input the expected output is false
     @Test
 		void LIC4FalseTest(){
 			int[][] points = new int[2][2];
@@ -158,6 +159,7 @@ class DecideTest {
 			assertFalse(dec.LIC4());
 		}
 
+		//With this input the expected output is true
         @Test
 		void LIC4TrueTest(){
 			int[][] points = new int[2][5];
@@ -303,6 +305,8 @@ class DecideTest {
 		var dec = new Decide(parameters, num_points, points);
 		assertFalse(dec.LIC7());
 	}
+
+	//With this input the expected output is false
   	@Test
 	void LIC11FalseInputTest(){
 		int[][] points = new int[2][5];
@@ -314,6 +318,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 2, points);
 		assertFalse(dec.LIC11());
 	}
+
+	//With this input the expected output is false
 	@Test
 	void LIC11FalseTest(){
 		int[][] points = new int[2][5];
@@ -331,6 +337,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 5, points);
 		assertFalse(dec.LIC11());
 	}
+
+	//With this input the expected output is true
 	@Test
 	void LIC11TrueTest(){
 		int[][] points = new int[2][7];
