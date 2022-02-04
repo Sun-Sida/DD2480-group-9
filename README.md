@@ -12,6 +12,8 @@ Decide is part of a hypthetical anti-ballistic missle system. It generates a boo
 </ul>
 
 ### How to use:
+Clone or download the repository. To run the program, use a IDE let it compile and run the testcases.
+
 The function Launch is what generates the YES or NO descision. To use the Launch function you need to create a DECIDE object. To create a DECIDE object, you need to input PARAMETERS object, a Logical Connector Matrix (LCM) and a Preliminary Unlocking Vector (PUV) and the number of points (planar space).  
 
 LCM is a logical connector that is used with CMV to create PUM. It consists of a 15x15 table that is filled with the values ANDD, ORR and NOTUSED.
