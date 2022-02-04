@@ -629,6 +629,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 7, points);
 		assertFalse(dec.LIC14());
 	}
+
+	//With this input the expected output is the same as axpected PUM
 	@Test
     public void pum_example1(){
         int[][] points = new int[0][0];
@@ -727,6 +729,7 @@ class DecideTest {
         }
     }
 
+	//With this input the expected output is the same as expectedfuv
     @Test
     void fuvExampel_1(){
         int[][] points = new int[0][0];
@@ -792,6 +795,7 @@ class DecideTest {
 
     }
 
+	//With this input the expected output is "YES"
     @Test 
     void TrueLaunchTest() {
         int[][] points = new int[0][0];
@@ -820,6 +824,7 @@ class DecideTest {
         
     }
 
+	//With this input the expected output is "NO"
 	@Test
 	void FalseLaunchTest() {
 		int[][] points = new int[2][3];
