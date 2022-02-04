@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertSame;
 class DecideTest {
 
+	//With this input the expected output is true
     @Test
     void LIC0TrueTest(){
         int[][] points = new int[2][3];
@@ -29,7 +30,7 @@ class DecideTest {
 
     }
 
-
+	//With this input the expected output is false
     @Test
     void LIC0FalseTest(){
         int[][] points = new int[2][2];
@@ -44,6 +45,7 @@ class DecideTest {
 
     }
   
+	//With this input the expected output is true
       void LIC1TrueTest(){
         int[][] points = new int[2][3];
             points[1][0] = 1;
@@ -59,6 +61,7 @@ class DecideTest {
 
     }
 
+	//With this input the expected output is false
     @Test
     void LIC1FalseTest(){
         int[][] points = new int[2][3];
@@ -75,6 +78,7 @@ class DecideTest {
 
     }
 
+	//With this input the expected output is true
     @Test
     void LIC2TrueTest(){
         int[][] points = new int[2][3];
@@ -89,6 +93,7 @@ class DecideTest {
             assertTrue(dec.LIC2());
     }
 
+	//With this input the expected output is false
     @Test
     void LIC2FalseTest(){
         int[][] points = new int[2][3];
@@ -103,6 +108,7 @@ class DecideTest {
             assertFalse(dec.LIC2());
     }
 
+	//With this input the expected output is true
 	@Test
 	void LIC3TrueTest() {
 		int[][] points = new int[2][3];
@@ -121,6 +127,7 @@ class DecideTest {
 		assertTrue(dec.LIC3());
 	}
 
+	//With this input the expected output is false
 	@Test
 	void LIC3FalseTest() {
 		int[][] points = new int[2][3];
