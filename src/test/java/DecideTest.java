@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertSame;
 class DecideTest {
 
+	//With this input the expected output is true
     @Test
     void LIC0TrueTest(){
         int[][] points = new int[2][3];
@@ -29,7 +30,7 @@ class DecideTest {
 
     }
 
-
+	//With this input the expected output is false
     @Test
     void LIC0FalseTest(){
         int[][] points = new int[2][2];
@@ -40,10 +41,10 @@ class DecideTest {
         Parameters parameters = new Parameters(10.0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		var dec = new Decide(parameters, 2, points);
         assertFalse(dec.LIC0());
-        //assertFalse(dec.LIC0(dec.X, dec.Y, dec.NUMPOINTS,dec.LENGTH1));
 
     }
   
+	//With this input the expected output is true
       void LIC1TrueTest(){
         int[][] points = new int[2][3];
             points[1][0] = 1;
@@ -59,6 +60,7 @@ class DecideTest {
 
     }
 
+	//With this input the expected output is false
     @Test
     void LIC1FalseTest(){
         int[][] points = new int[2][3];
@@ -75,6 +77,7 @@ class DecideTest {
 
     }
 
+	//With this input the expected output is true
     @Test
     void LIC2TrueTest(){
         int[][] points = new int[2][3];
@@ -89,6 +92,7 @@ class DecideTest {
             assertTrue(dec.LIC2());
     }
 
+	//With this input the expected output is false
     @Test
     void LIC2FalseTest(){
         int[][] points = new int[2][3];
@@ -103,6 +107,7 @@ class DecideTest {
             assertFalse(dec.LIC2());
     }
 
+	//With this input the expected output is true
 	@Test
 	void LIC3TrueTest() {
 		int[][] points = new int[2][3];
@@ -121,6 +126,7 @@ class DecideTest {
 		assertTrue(dec.LIC3());
 	}
 
+	//With this input the expected output is false
 	@Test
 	void LIC3FalseTest() {
 		int[][] points = new int[2][3];
@@ -139,6 +145,7 @@ class DecideTest {
 		assertFalse(dec.LIC3());
 	}
 
+	//With this input the expected output is false
     @Test
 		void LIC4FalseTest(){
 			int[][] points = new int[2][2];
@@ -151,6 +158,7 @@ class DecideTest {
 			assertFalse(dec.LIC4());
 		}
 
+		//With this input the expected output is true
         @Test
 		void LIC4TrueTest(){
 			int[][] points = new int[2][5];
@@ -296,6 +304,8 @@ class DecideTest {
 		var dec = new Decide(parameters, num_points, points);
 		assertFalse(dec.LIC7());
 	}
+
+	//With this input the expected output is false
   	@Test
 	void LIC11FalseInputTest(){
 		int[][] points = new int[2][5];
@@ -307,6 +317,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 2, points);
 		assertFalse(dec.LIC11());
 	}
+
+	//With this input the expected output is false
 	@Test
 	void LIC11FalseTest(){
 		int[][] points = new int[2][5];
@@ -324,6 +336,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 5, points);
 		assertFalse(dec.LIC11());
 	}
+
+	//With this input the expected output is true
 	@Test
 	void LIC11TrueTest(){
 		int[][] points = new int[2][7];
@@ -614,6 +628,8 @@ class DecideTest {
 		var dec = new Decide(parameters, 7, points);
 		assertFalse(dec.LIC14());
 	}
+
+	//With this input the expected output is the same as axpected PUM
 	@Test
     public void pum_example1(){
         int[][] points = new int[0][0];
@@ -712,6 +728,7 @@ class DecideTest {
         }
     }
 
+	//With this input the expected output is the same as expectedfuv
     @Test
     void fuvExampel_1(){
         int[][] points = new int[0][0];
@@ -777,6 +794,7 @@ class DecideTest {
 
     }
 
+	//With this input the expected output is "YES"
     @Test 
     void TrueLaunchTest() {
         int[][] points = new int[0][0];
@@ -805,6 +823,7 @@ class DecideTest {
         
     }
 
+	//With this input the expected output is "NO"
 	@Test
 	void FalseLaunchTest() {
 		int[][] points = new int[2][3];
